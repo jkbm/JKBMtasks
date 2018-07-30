@@ -1,0 +1,13 @@
+{% extends 'Tasks/base.html' %}
+
+{% block content %}
+    <a href='{% url "Tasks:new_task" %}'>Create new task</a>
+    <h2>Your task to complete:</h2>
+    {% for task in tasks %}
+    <p>{{ task }}</p>
+    {% endfor %}
+    <h2>Past tasks:</h2>
+    {% for task in past_tasks %}
+    <p style="{% if task.completed == True %}background-color:#45f442{% endif %}; border-radius:3px; padding:3px">{{task}}</p>
+    {% endfor %}
+{% endblock %}

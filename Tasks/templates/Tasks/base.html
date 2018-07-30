@@ -1,0 +1,67 @@
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+        <title>JK Tasks app</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">      
+        <link rel="shortcut icon" type="image/png" href="{% static '/favicon.ico'%}"/>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->     
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://use.fontawesome.com/ad4f6e3394.js"></script>
+        <!-- Fonts -->
+        <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Abril+Fatface&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Merriweather&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+        <!-- Losal stylesheets -->
+        <link rel="stylesheet" type="text/css" href="{% static 'Tasks/css/base.css' %}">
+    </head>
+<body>
+    <div>
+        <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'home' %} active {% endif %}" href="{% url 'Tasks:home' %}">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="{% url 'Tasks:tasks' %}">Tasks</a>
+                    <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'Tasks:tasks' task_type='active' %}">Active</a>
+                    <a class="dropdown-item" href="{% url 'Tasks:tasks' task_type='past' %}">Past</a>
+                    <a class="dropdown-item" href="{% url 'Tasks:tasks' task_type='missed' %}">Missed</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'Tasks:new_task' %}">New Task</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+        </ul>
+    </div>
+
+    {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                {{ message }}
+                </div>
+        {% endfor %}
+        </ul>
+    {% endif %}
+ 
+    <div class="content container">
+            {% block content %}
+            {% endblock %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+</body>
+</html>
+
+

@@ -1,0 +1,11 @@
+{% extends 'Tasks/base.html' %}
+
+{% block content %}
+    <a href='{% url "Tasks:new_task" %}'>Create new task</a>
+    <h2>Task: {{ task.title }}</h2>
+    <p>{{ task.description }}</p>
+    <p>Created on {{ task.start_date }} by {{ task.created_by }}.</p>
+    <p>Needed to be completed by {{ task.finish_date }}. </p>
+    <p>Task is {% if task.completed == False %}NOT{% endif %} completed.</p>
+
+{% endblock %}
