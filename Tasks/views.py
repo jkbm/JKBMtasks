@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from .models import *
 from .forms import NewTaskForm
@@ -11,6 +12,7 @@ import logging
 logger = logging.getLogger(__name__)
 # Create your views here.
 
+@login_required
 def index(request):
 
     tasks = Task.objects.filter(created_by=request.user, completed=False, start_date__gte=datetime.now().date()).order_by('start_date')
@@ -18,6 +20,7 @@ def index(request):
 
     return render(request, 'Tasks/index.html', {'tasks': tasks, 'past_tasks': past_tasks})
 
+@login_required
 def new_task(request):
     """
     View for creaing new tasks
@@ -39,6 +42,8 @@ def new_task(request):
 
     return render(request, 'Tasks/newtask.html', {'form': form,})
 
+
+@login_required
 def tasks(request, task_type='all'):
 
     if task_type == 'past':
@@ -52,6 +57,8 @@ def tasks(request, task_type='all'):
 
     return render(request, 'Tasks/tasks.html', {'tasks': tasks, 'task_type': task_type})
 
+
+@login_required
 def task(request, task_id):
     """
     Individual task page
