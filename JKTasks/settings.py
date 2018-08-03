@@ -79,14 +79,6 @@ WSGI_APPLICATION = 'JKTasks.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '',
-        'USER': 'jkbm_admin',
-        'PASSWORD': os.environ.get('BRANDS_DB_PASSWORDS', '221133Db'),
-        'HOST': 'localhost',
-        'PORT': '',
-    },
-    'alt': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'tasks',
         'USER': 'brandsadmin',
         'PASSWORD': os.environ.get('BRANDS_DB_PASSWORDS', '12345'),

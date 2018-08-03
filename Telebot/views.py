@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .bot.bot_core import setup_webhook
+from .bot.bot_core import setup_webhook, Bot
 # Create your views here.
 import logging
 logger = logging.getLogger('django')
@@ -20,7 +20,10 @@ def webhook(request):
     """
     View to test and setup webhook if necessary
     """
-
     response = setup_webhook()
+    task_bot = Bot()
+    task_bot.get_updates()
+    #task_bot.send_tasks()
+    #response = setup_webhook()
 
-    return render(request, 'Telebot/webhook.html', {'r': response})
+    return render(request, 'Telebot/webhook.html')
