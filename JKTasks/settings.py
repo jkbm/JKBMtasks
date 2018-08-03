@@ -26,7 +26,7 @@ SECRET_KEY = '@9wwd3!3fq3agpifsbiuz$t^4g2ynns&w9#q@^1o&o%&w2ahr&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'jekabm.com', 'ec2-18-188-166-210.us-east-2.compute.amazonaws.com']
 
 
 # Application definition
@@ -78,6 +78,14 @@ WSGI_APPLICATION = 'JKTasks.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': '',
+        'USER': 'jkbm_admin,
+        'PASSWORD': os.environ.get('BRANDS_DB_PASSWORDS', '221133Db'),
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+    'alt': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'tasks',
         'USER': 'brandsadmin',
