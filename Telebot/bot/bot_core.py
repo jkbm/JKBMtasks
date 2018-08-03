@@ -4,20 +4,25 @@ import requests
 import json
 import logging
 
+logger = logging.getLogger('django')
+
 ACCESS_TOKEN = "620194850:AAFmKn8NBdgbWLWTbPlvd1uOdBd6kLWYkQk"
 myurl = "https://www.jekabm.com/bot/telebot"
 URL = "https://api.telegram.org/bot%s/" % ACCESS_TOKEN
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+
 def setup_webhook():
-    resp = ""
+    """
+    Checking webhook status. Setup/remove if necessary
+    """
+
     try:
-        logger.error("Setting webhook...")
+      
         r = requests.get(URL +"getWebhookInfo")
         rj = r.json()
-        if rj['result']['url'] != "":
-            logger.info("WEBHOOK is already set!")
+        wh_url = rj['result']['url']
+        if wh_url != "":
+            logger.info("WEBHOOK is already set at %s" % wh_url)
         else:
             r = requests.get(URL + "setWebhook?url=%s" % myurl)
             logger.info("Result of setting webhook %s" % r.text)
@@ -26,7 +31,7 @@ def setup_webhook():
         if r.status_code != 200:
             logger.error("Can't set hook: %s. Quit." % r.text)
         else:
-            logger.debug(r.text)
+            logger.info("Result of webhook check %s" % r.text)
 
         
 
