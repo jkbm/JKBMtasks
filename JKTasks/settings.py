@@ -26,7 +26,7 @@ SECRET_KEY = '@9wwd3!3fq3agpifsbiuz$t^4g2ynns&w9#q@^1o&o%&w2ahr&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'jekabm.com', 'ec2-18-188-166-210.us-east-2.compute.amazonaws.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'www.jekabm.com', 'ec2-18-188-166-210.us-east-2.compute.amazonaws.com']
 
 
 # Application definition
