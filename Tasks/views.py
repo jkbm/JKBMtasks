@@ -9,7 +9,7 @@ from datetime import datetime
 
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('django')
 # Create your views here.
 
 @login_required
@@ -42,6 +42,25 @@ def new_task(request):
 
     return render(request, 'Tasks/newtask.html', {'form': form,})
 
+@login_required
+def task_management(request):
+    """
+    View for creaing new tasks
+    """
+    tasks = Task.objects.filter(created_by=request.user, completed=False, start_date__gte=datetime.now().date()).order_by('start_date')
+
+    if request.method == "POST":
+        logger.info(request.POST)
+        ids = request.POST.getlist('complete', '')
+        for task_id in ids:        
+            if task_id != '':
+                task = Task.objects.get(task_id=task_id)
+                task.completed = True
+                task.save()
+
+
+
+    return render(request, 'Tasks/manage.html', {'tasks': tasks})
 
 @login_required
 def tasks(request, task_type='all'):

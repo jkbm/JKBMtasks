@@ -1,13 +1,25 @@
 {% extends 'Tasks/base.html' %}
 
 {% block content %}
-    <a href='{% url "Tasks:new_task" %}'>Create new task</a>
     <h2>Your task to complete:</h2>
-    {% for task in tasks %}
-    <p>{{ task }}</p>
-    {% endfor %}
-    <h2>Past tasks:</h2>
-    {% for task in past_tasks %}
-    <p style="{% if task.completed == True %}background-color:#45f442{% endif %}; border-radius:3px; padding:3px">{{task}}</p>
-    {% endfor %}
+    <div>
+        {% for task in tasks %}
+        <p class="task">
+            <a href="{% url 'Tasks:task' task_id=task.task_id %}">{{ task }}</a>
+        </p>
+        {% endfor %}
+    </div>
+    <h3>Past tasks:</h3>
+    <div>
+        {% for task in past_tasks %}
+        <p class="task" style="{% if task.completed == True %} background-color:#45f442 {% endif %};">
+            <a href="{% url 'Tasks:task' task_id=task.task_id %}">{{ task }}</a>
+        <span id="colorbox"></span>
+        </p>
+        {% endfor %}
+    </div>
+    <hr>
+    <a href='{% url "Tasks:new_task" %}'><button type="button" class="btn btn-light">Create new task</button></a>
+    
+    
 {% endblock %}

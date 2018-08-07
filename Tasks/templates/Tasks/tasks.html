@@ -1,10 +1,13 @@
 {% extends 'Tasks/base.html' %}
 
 {% block content %}
-    <a href='{% url "Tasks:new_task" %}'>Create new task</a>
-    <h2>Your {{ task_type }} tasks:</h2>
-    {% for task in tasks %}
-    <p><a href="{% url 'Tasks:task' task_id=task.task_id %}">{{ task }}</a></p>
-    {% endfor %}
+    <div>
+        <h2>Your {{ task_type }} tasks:</h2>
+        {% for task in tasks %}
+            <p><a href="{% url 'Tasks:task' task_id=task.task_id %}">{{ task }}</a></p>
+        {% endfor %}
+        <hr>
+        <a href='{% url "Tasks:new_task" %}'><button type="button" class="btn btn-light">Create new task</button></a>
+    </div>
 
 {% endblock %}

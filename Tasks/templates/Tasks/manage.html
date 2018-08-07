@@ -1,0 +1,32 @@
+{% extends 'Tasks/base.html' %}
+
+{% block content %}
+<script>
+$( function() {
+    $( "#id_start_date" ).datepicker();
+} );
+</script>
+
+<div class="form manage">
+        <h2>Complete your tasks:</h2>
+        
+        <p>
+        <form  method="POST"> {% csrf_token %}
+            {% for task in tasks%}
+            <label name ="task" value="{{ task.task_id }}" >{{ task.title }}: {{ task.description }}</label>            
+            <label>Completed: <input type="checkbox" name="complete" value="{{ task.task_id }}"></label>
+            <br>
+            {% endfor %}  
+            <input type="submit" value="Confirm">         
+        </form>
+        </p>
+
+</div>
+<hr>
+<div class="form new-task">
+    <h2>Create new task</h2>
+
+</div>
+
+
+{% endblock %}
