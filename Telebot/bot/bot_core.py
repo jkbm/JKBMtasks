@@ -5,6 +5,7 @@ import json
 import logging
 from Tasks.models import Task
 from ..models import Bot_user
+from .bot_response import get_answer
 logger = logging.getLogger('django')
 
 ACCESS_TOKEN = "620194850:AAFmKn8NBdgbWLWTbPlvd1uOdBd6kLWYkQk"
@@ -62,36 +63,40 @@ class Bot:
     def get_updates(self):
         get_url = "{0}getUpdates".format(URL)
         self.updates = json.loads(requests.get(get_url).text)
-        self.messages = [(x['message']['from'], x['message']['text']) for x in self.updates['result']]
+        #self.messages = [(x['message']['from'], x['message']['text']) for x in self.updates['result']]
         user = self.updates['result'][-1]['message']['from']
         user.pop('is_bot')
         user.pop('language_code')
-        bot_user, created = Bot_user.objects.get_or_create(**user)
+        bot_user, created = Bot_user.objects.get_or_create(id=user['id'])
+        bot_user = Bot_user.objects.filter(id=user.pop('id')).update(**user)        
     
     def get_last_chat_id_and_text(self):
         num_updates = len(self.updates["result"])
         if num_updates > 0:
             last_update = num_updates - 1
+            last = text = self.updates["result"][last_update]
             text = self.updates["result"][last_update]["message"]["text"]
             chat_id = self.updates["result"][last_update]["message"]["chat"]["id"]
         else:
             text, chat_id = ""
 
-        return (text, chat_id)
+        return (text, chat_id, last)
 
     def send_response(self, text=None):
         #get_url = "{0}sendMessage?chat_id={1}&text={2}".format(URL, self.messages[0][0]['id'], text)
         #self.sent = json.loads(requests.get(get_url).text)
-        last_text, chat_id = self.get_last_chat_id_and_text()
+        last_text, chat_id, last_update = self.get_last_chat_id_and_text()
         if text == None:
             text = last_text
         else:
             text = "Your tasks: %s" % text
-        if chat_id != "":
-            url = URL + "sendMessage?text={}&chat_id={}".format(text, chat_id)
-            r, jr = self.get_request(url)
-            logger.info(jr)
 
+        answer = get_answer(last_update)
+        if chat_id != "":
+            url = URL + "sendMessage?parse_mode=html&text={0}&chat_id={1}".format(answer, chat_id)
+            r, jr = self.get_request(url)
+            logger.info("Result: {0}".format(r))
+ 
     def send_tasks(self):
         tasks = Task.objects.all()
         tasks_names = [t.title for t in tasks]

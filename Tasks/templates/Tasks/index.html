@@ -12,9 +12,9 @@
     <h3>Past tasks:</h3>
     <div>
         {% for task in past_tasks %}
-        <p class="task" style="{% if task.completed == True %} background-color:#45f442 {% endif %};">
+        <p class="task">
             <a href="{% url 'Tasks:task' task_id=task.task_id %}">{{ task }}</a>
-        <span id="colorbox"></span>
+        <span style="{% if task.completed == True %} background-color:#45f442 {% endif %};" id="colorbox"></span>
         </p>
         {% endfor %}
     </div>

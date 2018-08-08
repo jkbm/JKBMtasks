@@ -14,7 +14,9 @@ logger = logging.getLogger('django')
 
 @login_required
 def index(request):
-
+    """
+    Home page
+    """
     tasks = Task.objects.filter(created_by=request.user, completed=False, start_date__gte=datetime.now().date()).order_by('start_date')
     past_tasks = Task.objects.filter(created_by=request.user, start_date__lt=datetime.now().date()) 
 

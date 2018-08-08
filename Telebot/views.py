@@ -20,10 +20,10 @@ def webhook(request):
     """
     View to test and setup webhook if necessary
     """
-    response = setup_webhook()
+    #response = setup_webhook()
     task_bot = Bot()
     task_bot.get_updates()
-    #task_bot.send_tasks()
+    task_bot.send_response()
     #response = setup_webhook()
 
     return render(request, 'Telebot/webhook.html')
