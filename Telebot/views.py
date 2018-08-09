@@ -33,9 +33,9 @@ def webhook(request):
         info = "POST DATA:" + str(jdata)
         logger.info(info)
 
-    task_bot = Bot()
-        #task_bot.get_updates()
-    task_bot.send_wh_response()
-        #response = setup_webhook()
+        task_bot = Bot()
+            #task_bot.get_updates()
+        task_bot.send_wh_response(jdata)
+            #response = setup_webhook()
 
     return render(request, 'Telebot/webhook.html')

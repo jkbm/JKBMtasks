@@ -72,7 +72,7 @@ class Bot:
         num_updates = len(self.updates["result"])
         if num_updates > 0:
             last_update = num_updates - 1
-            last = text = self.updates["result"][last_update]
+            last = self.updates["result"][last_update]
             text = self.updates["result"][last_update]["message"]["text"]
             chat_id = self.updates["result"][last_update]["message"]["chat"]["id"]
         else:
