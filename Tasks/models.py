@@ -3,6 +3,7 @@ from django.utils import timezone
 from datetime import datetime
 import uuid
 from django.contrib.auth.models import User
+from Telebot.models import Bot_user
 from django.conf import settings
 # Create your models here.
 
@@ -14,6 +15,7 @@ class Task(models.Model):
     start_date = models.DateField(null=True, blank=True)
     finish_date = models.DateField(default=datetime.now, null=True, blank=True)
     created_by = models.ForeignKey('auth.User', null=True, blank=True, on_delete=models.SET_NULL)
+    created_by_bot = models.ForeignKey(Bot_user, null=True, blank=True, on_delete=models.SET_NULL)
     completed = models.BooleanField(default=False)
 
     def __str__(self):

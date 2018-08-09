@@ -121,11 +121,6 @@ class Bot:
         self.send_response(tasks_names)
 
 
-    def get_tasks(self):
-        #tasks = Task.objects.all()
-        return True
-
-
 if __name__ == "__main__":
     task_bot = Bot()
     task_bot.get_updates()
