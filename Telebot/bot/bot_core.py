@@ -100,7 +100,7 @@ class Bot:
         #self.sent = json.loads(requests.get(get_url).text)
         try:
             chat_id = update['message']['chat']['id']
-            answer = get_answer(update['message'])
+            answer = get_answer(update)
             if chat_id != "":
                 url = URL + "sendMessage?parse_mode=html&text={0}&chat_id={1}".format(answer, chat_id)
                 r, jr = self.get_request(url)
