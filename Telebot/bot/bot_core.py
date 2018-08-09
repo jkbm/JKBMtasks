@@ -99,7 +99,7 @@ class Bot:
         #get_url = "{0}sendMessage?chat_id={1}&text={2}".format(URL, self.messages[0][0]['id'], text)
         #self.sent = json.loads(requests.get(get_url).text)
         try:
-
+            chat_id = update['chat']['id']
             answer = get_answer(update)
             if chat_id != "":
                 url = URL + "sendMessage?parse_mode=html&text={0}&chat_id={1}".format(answer, chat_id)
