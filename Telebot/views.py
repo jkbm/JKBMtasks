@@ -28,7 +28,7 @@ def webhook(request):
     response = setup_webhook()
     if response:
         if request.POST:
-            data = request.body
+            data = request.POST
             jdata = json.loads(data)
             logging.info(jdata)
     else:
