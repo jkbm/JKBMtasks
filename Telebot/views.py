@@ -30,7 +30,7 @@ def webhook(request):
     if request.method == "POST":
         data = request.body
         jdata = json.loads(data)
-        info = "POST DATA:" + jdata
+        info = "POST DATA:" + str(jdata)
         logger.info(info)
 
     task_bot = Bot()
