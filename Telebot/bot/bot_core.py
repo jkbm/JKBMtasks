@@ -9,7 +9,7 @@ from .bot_response import get_answer
 logger = logging.getLogger('django')
 
 ACCESS_TOKEN = "620194850:AAFmKn8NBdgbWLWTbPlvd1uOdBd6kLWYkQk"
-myurl = "https://www.jekabm.com/bot/telebot"
+myurl = "https://fierce-bayou-86062.herokuapp.com/bot/webhook"
 URL = "https://api.telegram.org/bot%s/" % ACCESS_TOKEN
 
 
@@ -17,25 +17,23 @@ def setup_webhook(action='get'):
     """
     Checking webhook status. Setup/remove if necessary
     """
-    if action == 'set':
+    check = json.loads(requests.get(URL +"getWebhookInfo").text)
+
+    logger.info(check)
+    if check['result']['url'] == '':
         r = requests.get(URL + "setWebhook?url=%s" % myurl)
     elif action == 'delete':
         r = requests.get(URL + "deleteWebhook")
     else:
         r = requests.get(URL +"getWebhookInfo")
 
-    try:
-        #r = requests.get(URL + "deleteWebhook")
         
-        if r.status_code != 200:
-            logger.error("Can't set hook: %s. Quit." % r.text)
-        else:
-            logger.info("Result of webhook check %s" % r.text)
+    if r.status_code != 200:
+        logger.error("Can't set hook: %s. Quit." % r.text)
+    else:
+        logger.info("Result of webhook check %s" % r.text)
 
         
-
-    except Exception as e:
-        logging.error("There was an error setting up WebHook: %s" % e)
     return r.text
 
 
