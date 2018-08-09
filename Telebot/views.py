@@ -26,9 +26,10 @@ def webhook(request):
     """
     View to test and setup webhook if necessary
     """
-    mode = "get"
+    mode = "get" #Set to "wh" to setup and use Webhook
     if mode == "wh":
-        #response = setup_webhook()
+        setup_webhook()
+
         if request.method == "POST":
             data = request.body
             jdata = json.loads(data)
@@ -39,8 +40,8 @@ def webhook(request):
                 #task_bot.get_updates()
             task_bot.send_wh_response(jdata)
     elif mode == "get":
-        response = setup_webhook('delete')
+        setup_webhook('delete')
         task_bot = Bot()
         task_bot.get_updates()
-        task_bot.send_wh_response(jdata)
+        task_bot.send_response()
     return render(request, 'Telebot/webhook.html')
