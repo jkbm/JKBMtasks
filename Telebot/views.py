@@ -35,13 +35,12 @@ def webhook(request):
             jdata = json.loads(data)
             info = "POST DATA:" + str(jdata)
             logger.info(info)
-
             task_bot = Bot()
-                #task_bot.get_updates()
             task_bot.send_wh_response(jdata)
     elif mode == "get":
         setup_webhook('delete')
         task_bot = Bot()
         task_bot.get_updates()
         task_bot.send_response()
+
     return render(request, 'Telebot/webhook.html')
