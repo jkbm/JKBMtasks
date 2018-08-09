@@ -27,6 +27,7 @@ def setup_webhook(action='get'):
         r = requests.get(URL + "deleteWebhook")
     else:
         r = requests.get(URL +"getWebhookInfo")
+        return True
 
         
     if r.status_code != 200:
