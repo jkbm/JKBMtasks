@@ -20,31 +20,27 @@ def setup_webhook(action='get'):
     check = json.loads(requests.get(URL +"getWebhookInfo").text)
 
     logger.info(check)
-    if check['result']['url'] == '':
-        r = requests.get(URL + "setWebhook?url=%s" % myurl)
-        return True
+    if action == 'get':
+        if check['result']['url'] == '':
+            r = requests.get(URL + "setWebhook?url=%s" % myurl)
     elif action == 'delete':
-        r = requests.get(URL + "deleteWebhook")
-    else:
-        r = requests.get(URL +"getWebhookInfo")
-        return True
-
+        if check['result']['url'] == '':
+            logger.info("Webhook not set.")
+        else:
+            r = requests.get(URL + "deleteWebhook")
+            logger.info("Webhook was deleted.")
         
     if r.status_code != 200:
         logger.error("Can't set hook: %s. Quit." % r.text)
-    else:
-        logger.info("Result of webhook check %s" % r.text)
-        
-    return False
 
 
-
-def respond(query):
-
-    pass
 
 
 class Bot:
+    """
+    Telegram bot for tasks management class
+    """
+
     URL = "https://api.telegram.org/bot{0}".format(ACCESS_TOKEN)
     def __init__(self):
         get_url = URL + "getme"

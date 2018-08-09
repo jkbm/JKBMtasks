@@ -26,16 +26,21 @@ def webhook(request):
     """
     View to test and setup webhook if necessary
     """
-    #response = setup_webhook()
-    if request.method == "POST":
-        data = request.body
-        jdata = json.loads(data)
-        info = "POST DATA:" + str(jdata)
-        logger.info(info)
+    mode = "get"
+    if mode == "wh":
+        #response = setup_webhook()
+        if request.method == "POST":
+            data = request.body
+            jdata = json.loads(data)
+            info = "POST DATA:" + str(jdata)
+            logger.info(info)
 
+            task_bot = Bot()
+                #task_bot.get_updates()
+            task_bot.send_wh_response(jdata)
+    elif mode == "get":
+        response = setup_webhook('delete')
         task_bot = Bot()
-            #task_bot.get_updates()
+        task_bot.get_updates()
         task_bot.send_wh_response(jdata)
-            #response = setup_webhook()
-
     return render(request, 'Telebot/webhook.html')
