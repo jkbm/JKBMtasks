@@ -26,6 +26,7 @@ def webhook(request):
     View to test and setup webhook if necessary
     """
     #response = setup_webhook()
+    logger.info(request.META)
     if request.POST:
         data = request.POST
         jdata = json.loads(data)
