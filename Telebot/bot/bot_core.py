@@ -106,7 +106,7 @@ class Bot:
                 r, jr = self.get_request(url)
                 logger.info("Result: {0}".format(r))
         except Exception as e:
-            logger.error(e)
+            logger.error("Response error: %s" % e)
  
     def send_tasks(self):
         tasks = Task.objects.all()

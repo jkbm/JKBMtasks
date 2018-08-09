@@ -11,10 +11,9 @@ logger = logging.getLogger('django')
 
 
 def get_answer(update):
+    logger.info("Generating answer...")
     text = update['message']['text']
     user = update['message']['chat']
-    logging.info(text)
-    logging.info(user)
 
     if text.startswith('/'):
         answer = get_command(update, text, user)
