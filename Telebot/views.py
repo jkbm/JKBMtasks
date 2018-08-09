@@ -23,10 +23,10 @@ def webhook(request):
     """
     response = setup_webhook()
 
-
-    data = request.body
-    jdata = json.loads(data)
-    logging.info(jdata)
+    if request.GET:
+        data = request.body
+        jdata = json.loads(data)
+        logging.info(jdata)
     #task_bot = Bot()
     #task_bot.get_updates()
     #task_bot.send_response()
