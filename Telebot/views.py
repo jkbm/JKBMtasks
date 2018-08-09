@@ -30,7 +30,8 @@ def webhook(request):
         if request.POST:
             data = request.POST
             jdata = json.loads(data)
-            logging.info(jdata)
+            info = "POST DATA:" + jdata
+            logging.info(info)
     else:
 
         task_bot = Bot()
