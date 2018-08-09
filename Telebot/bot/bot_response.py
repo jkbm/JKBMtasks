@@ -52,11 +52,13 @@ def get_tasks(text, user):
                 list_arg = arg.split()
                 params[list_arg[0]] = " ".join(list_arg[1:])
             task = Task.objects.create(**params)
+            task.created_by_bot = bot_user
+            task.save()
             answer = task
         else:
             answer = "Incorect command to create a task(Use -<field> <value> template)."
     else:       
-        tasks = Task.objects.filter(created_by=bot_user.app_user, created_by_bot = bot_user, completed=False, start_date__gte=datetime.now().date()).order_by('start_date')
+        tasks = Task.objects.filter(created_by=bot_user.app_user, completed=False, start_date__gte=datetime.now().date()).order_by('start_date')
         answer = "Your tasks: \n"
         for task in tasks:
             answer += "<b>{0}</b>: <i>{1}.</i> Complete by: {2}\n".format(task.title, task.description, task.finish_date)
