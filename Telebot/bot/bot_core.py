@@ -94,6 +94,19 @@ class Bot:
             url = URL + "sendMessage?parse_mode=html&text={0}&chat_id={1}".format(answer, chat_id)
             r, jr = self.get_request(url)
             logger.info("Result: {0}".format(r))
+    
+    def send_wh_response(self, update=None):
+        #get_url = "{0}sendMessage?chat_id={1}&text={2}".format(URL, self.messages[0][0]['id'], text)
+        #self.sent = json.loads(requests.get(get_url).text)
+        try:
+
+            answer = get_answer(update)
+            if chat_id != "":
+                url = URL + "sendMessage?parse_mode=html&text={0}&chat_id={1}".format(answer, chat_id)
+                r, jr = self.get_request(url)
+                logger.info("Result: {0}".format(r))
+        except Exception as e:
+            logger.error(e)
  
     def send_tasks(self):
         tasks = Task.objects.all()

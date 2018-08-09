@@ -27,18 +27,15 @@ def webhook(request):
     View to test and setup webhook if necessary
     """
     #response = setup_webhook()
-    logger.info(request.META)
-    logger.info(request.POST)
-    logger.info(request.method)
-    logger.info(request.body)
-    if request.POST:
-        data = request.POST
+    if request.method == "POST":
+        data = request.body
         jdata = json.loads(data)
         info = "POST DATA:" + jdata
         logger.info(info)
+
     task_bot = Bot()
         #task_bot.get_updates()
-        #task_bot.send_response()
+    task_bot.send_wh_response()
         #response = setup_webhook()
 
     return render(request, 'Telebot/webhook.html')
