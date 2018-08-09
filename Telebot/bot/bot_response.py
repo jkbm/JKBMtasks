@@ -3,12 +3,13 @@
 from Telebot.models import Bot_user
 from Tasks.models import Task, User
 from datetime import datetime
+import random
 
 import logging
 
 logger = logging.getLogger('django')
 
-
+commands = {'heys': (['hello', 'hi', 'hey', 'greetings' 'sup', 'wassup', 'привет'], ['Hello', 'Hey, there', 'Hi!', 'Greetings!'])}
 
 def get_answer(update):
     logger.info("Generating answer...")
@@ -17,6 +18,8 @@ def get_answer(update):
 
     if text.startswith('/'):
         answer = get_command(update, text, user)
+    elif text.lower() in commands['heys'][0]:
+        answer = random.choice(commands['heys'][1])
     else:
         answer = "Please use '/help' to discover available commands."
     
@@ -65,3 +68,4 @@ def get_tasks(text, user):
         
 
     return answer
+

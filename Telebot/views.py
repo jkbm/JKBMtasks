@@ -26,7 +26,7 @@ def webhook(request):
     """
     View to test and setup webhook if necessary
     """
-    mode = "get" #Set to "wh" to setup and use Webhook
+    mode = "wh" #Set to "wh" to setup and use Webhook
     if mode == "wh":
         setup_webhook()
 
