@@ -49,7 +49,6 @@ class Bot:
     def __init__(self):
         get_url = URL + "getme"
         get_init = json.loads(requests.get(get_url).text)
-        logger.info(get_url)
         self.id = get_init['result']['id']
         self.name = get_init['result']['first_name']
         self.username = get_init['result']['username']

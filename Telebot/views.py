@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .bot.bot_core import setup_webhook, Bot
 from django.views.decorators.csrf import csrf_exempt
-
+from django.views.decorators.http import require_POST
 
 # Create your views here.
 import json
@@ -21,6 +21,7 @@ def index(request):
     return render(request, 'Telebot/index.html')
 
 @csrf_exempt
+@require_POST
 def webhook(request):
     """
     View to test and setup webhook if necessary
