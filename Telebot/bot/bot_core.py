@@ -9,7 +9,7 @@ from .bot_response import get_answer
 logger = logging.getLogger('django')
 
 ACCESS_TOKEN = "620194850:AAFmKn8NBdgbWLWTbPlvd1uOdBd6kLWYkQk"
-myurl = "https://fierce-bayou-86062.herokuapp.com/bot/webhook"
+myurl = "https://fierce-bayou-86062.herokuapp.com/bot/webhook/"
 URL = "https://api.telegram.org/bot%s/" % ACCESS_TOKEN
 
 
@@ -22,6 +22,7 @@ def setup_webhook(action='get'):
     logger.info(check)
     if check['result']['url'] == '':
         r = requests.get(URL + "setWebhook?url=%s" % myurl)
+        return True
     elif action == 'delete':
         r = requests.get(URL + "deleteWebhook")
     else:
@@ -32,9 +33,8 @@ def setup_webhook(action='get'):
         logger.error("Can't set hook: %s. Quit." % r.text)
     else:
         logger.info("Result of webhook check %s" % r.text)
-
         
-    return r.text
+    return False
 
 
 

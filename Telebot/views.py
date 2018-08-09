@@ -22,14 +22,16 @@ def webhook(request):
     View to test and setup webhook if necessary
     """
     response = setup_webhook()
+    if response:
+        if request.POST:
+            data = request.body
+            jdata = json.loads(data)
+            logging.info(jdata)
+    else:
 
-    if request.GET:
-        data = request.body
-        jdata = json.loads(data)
-        logging.info(jdata)
-    #task_bot = Bot()
-    #task_bot.get_updates()
-    #task_bot.send_response()
-    #response = setup_webhook()
+        task_bot = Bot()
+        #task_bot.get_updates()
+        #task_bot.send_response()
+        #response = setup_webhook()
 
     return render(request, 'Telebot/webhook.html')
