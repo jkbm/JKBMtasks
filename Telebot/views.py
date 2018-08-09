@@ -27,6 +27,7 @@ def webhook(request):
     """
     #response = setup_webhook()
     logger.info(request.META)
+    logger.info(request.POST)
     if request.POST:
         data = request.POST
         jdata = json.loads(data)
