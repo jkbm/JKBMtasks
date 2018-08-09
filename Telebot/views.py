@@ -21,7 +21,7 @@ def index(request):
     return render(request, 'Telebot/index.html')
 
 @csrf_exempt
-@require_POST
+#@require_POST
 def webhook(request):
     """
     View to test and setup webhook if necessary

@@ -17,9 +17,11 @@ def setup_webhook(action='get'):
     """
     Checking webhook status. Setup/remove if necessary
     """
-    check = json.loads(requests.get(URL +"getWebhookInfo").text)
+    r = requests.get(URL +"getWebhookInfo")
+    if r.status_code != 200:
+        logger.error("Can't set hook: %s. Quit." % r.text)
+    check = json.loads(r.text)
 
-    logger.info(check)
     if action == 'get':
         if check['result']['url'] == '':
             r = requests.get(URL + "setWebhook?url=%s" % myurl)
@@ -30,8 +32,7 @@ def setup_webhook(action='get'):
             r = requests.get(URL + "deleteWebhook")
             logger.info("Webhook was deleted.")
         
-    if r.status_code != 200:
-        logger.error("Can't set hook: %s. Quit." % r.text)
+    
 
 
 
