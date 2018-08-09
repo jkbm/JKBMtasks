@@ -25,16 +25,13 @@ def webhook(request):
     """
     View to test and setup webhook if necessary
     """
-    response = setup_webhook()
-    if response:
-        if request.POST:
-            data = request.POST
-            jdata = json.loads(data)
-            info = "POST DATA:" + jdata
-            logger.info(info)
-    else:
-
-        task_bot = Bot()
+    #response = setup_webhook()
+    if request.POST:
+        data = request.POST
+        jdata = json.loads(data)
+        info = "POST DATA:" + jdata
+        logger.info(info)
+    task_bot = Bot()
         #task_bot.get_updates()
         #task_bot.send_response()
         #response = setup_webhook()
