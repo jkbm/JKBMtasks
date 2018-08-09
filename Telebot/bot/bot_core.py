@@ -58,8 +58,8 @@ class Bot:
         jr = json.loads(r)
         return r, jr
 
-    def get_bot_user(self, id):
-        bot_user, created = Bot_user.objects.get_or_create(id=id)
+    def get_bot_user(self, user):
+        bot_user, created = Bot_user.objects.get_or_create(id=user['id'])
         bot_user = Bot_user.objects.filter(id=user.pop('id')).update(**user)  
 
     def get_updates(self):
@@ -69,7 +69,7 @@ class Bot:
         user = self.updates['result'][-1]['message']['from']
         user.pop('is_bot')
         user.pop('language_code')
-        get_bot_user(user['id'])   
+        self.get_bot_user(user)   
     
     def get_last_chat_id_and_text(self):
         num_updates = len(self.updates["result"])
@@ -102,6 +102,10 @@ class Bot:
         #get_url = "{0}sendMessage?chat_id={1}&text={2}".format(URL, self.messages[0][0]['id'], text)
         #self.sent = json.loads(requests.get(get_url).text)
         try:
+            user = update['message']['from']
+            user.pop('is_bot')
+            user.pop('language_code')
+            self.get_bot_user(user)
             chat_id = update['message']['chat']['id']
             answer = get_answer(update)
             if chat_id != "":
