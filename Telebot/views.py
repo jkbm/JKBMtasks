@@ -48,6 +48,6 @@ def webhook(request):
 
 def show_history(request, chat_id):
 
-    messages = Message.objects.filter('chat_id'=chat_id)
+    messages = Message.objects.filter(chat_id=chat_id)
 
     return render(request, "Telebot/history.html", {'messages': messages})
