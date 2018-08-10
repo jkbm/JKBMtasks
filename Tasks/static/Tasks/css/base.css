@@ -52,10 +52,15 @@ body {
     
 }
 form input{
-    padding: 5px;
+    margin: 5px;
+}
+form label{
+    padding-top: 10px;
+    padding-left: 10px;
+    vertical-align: middle;
 }
 form button{
-    margin: 
+    padding-left: 5px;
 }
 /* Customize the label (the container) */
 .checkbox-container {
