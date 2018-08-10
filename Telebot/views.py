@@ -49,8 +49,8 @@ def webhook(request):
 def show_history(request, chat_id):
 
     messages = Message.objects.filter(chat_id=chat_id)
-    user = Bot_user.objects.filter(id=chat_id)
-    username = "{0} '{1}' {2}".format(user.first_name, user.user_name, user.last_name)
+    user = Bot_user.objects.get(id=chat_id)
+    username = "{0} '{1}' {2}".format(user.first_name, user.username, user.last_name)
     messages_tuple = []
     for m in messages:
         if m.sent == True:
