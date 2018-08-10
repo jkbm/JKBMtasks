@@ -1,0 +1,3 @@
+{% for message in messages %}
+<p style="{% if message.sent==True %} background-color:blue; {% else %} background-color: red; {% endif %}">{{ message.text }}</p>
+{% endfor %}
