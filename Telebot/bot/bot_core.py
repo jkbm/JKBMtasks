@@ -84,7 +84,7 @@ class Bot:
 
     def save_message(self, update, text=None):
 
-        params = {'chat_id': update['message']['from']['id'],
+        params = {'chat_id': update['message']['chat']['id'],
                   'time_sent': datetime.fromtimestamp(update['date'])}
 
         if text == None:
@@ -104,8 +104,9 @@ class Bot:
             text = last_text
         else:
             text = "Your tasks: %s" % text
-
+        self.save_message(last_update)
         answer = get_answer(last_update)
+        self.save_message(last_update, answer)
         if chat_id != "":
             url = URL + "sendMessage?parse_mode=html&text={0}&chat_id={1}".format(answer, chat_id)
             r, jr = self.get_request(url)
@@ -130,7 +131,7 @@ class Bot:
                 r, jr = self.get_request(url)
                 logger.info("Result: {0}".format(r))
         except Exception as e:
-            logger.error("Response error: %s" % e)
+            logger.error("Response error: {0}: {1}".format(e, e.args))
  
     def send_tasks(self):
         tasks = Task.objects.all()
