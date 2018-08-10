@@ -115,6 +115,7 @@ class Bot:
         #get_url = "{0}sendMessage?chat_id={1}&text={2}".format(URL, self.messages[0][0]['id'], text)
         #self.sent = json.loads(requests.get(get_url).text)
         try:
+            logger.info("Update: {0}".format(update))
             user = update['message']['from']
             user.pop('is_bot')
             user.pop('language_code')
