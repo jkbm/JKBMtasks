@@ -51,8 +51,8 @@ def show_history(request, chat_id):
     messages = Message.objects.filter(chat_id=chat_id)
     user = Bot_user.objects.get(id=chat_id)
     if user.username == None: user.username = ""
-    if user.last_name == None: user.username = ""
-    if user.first_name == None: user.username = ""
+    if user.last_name == None: user.last_name = ""
+    if user.first_name == None: user.first_name = ""
     username = "{0} '{1}' {2}".format(user.first_name, user.username, user.last_name)
     messages_tuple = []
     for m in messages:
