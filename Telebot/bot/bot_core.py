@@ -89,7 +89,7 @@ class Bot:
 
         if text == None:
             params['sent'] = False
-            params['text'] = update['text']
+            params['text'] = update['message']['text']
         else:
             params['sent'] = True
             params['time_sent'] = datetime.now()
