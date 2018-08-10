@@ -4,8 +4,10 @@ import requests
 import json
 import logging
 from Tasks.models import Task
-from ..models import Bot_user
+from ..models import Bot_user, Message
 from .bot_response import get_answer
+from datetime import datetime
+
 logger = logging.getLogger('django')
 
 ACCESS_TOKEN = "620194850:AAFmKn8NBdgbWLWTbPlvd1uOdBd6kLWYkQk"
@@ -80,6 +82,20 @@ class Bot:
 
         return (text, chat_id, last)
 
+    def save_message(self, update, text=None):
+
+        params = {'chat_id': update['from']['id'],
+                  'time_sent': datetime.fromtimestamp(update['date'])}
+
+        if text == None:
+            params['sent'] = False
+            params['text'] = update['text']
+        else:
+            params['sent'] = True
+            params['time_sent'] = datetime.now()
+
+        message = Message.objects.create(**params)
+
     def send_response(self, text=None):
         #get_url = "{0}sendMessage?chat_id={1}&text={2}".format(URL, self.messages[0][0]['id'], text)
         #self.sent = json.loads(requests.get(get_url).text)
@@ -105,8 +121,11 @@ class Bot:
             self.get_bot_user(user)
             chat_id = update['message']['chat']['id']
             answer = get_answer(update)
+            self.save_message(update)
+            
             if chat_id != "":
                 url = URL + "sendMessage?parse_mode=html&text={0}&chat_id={1}".format(answer, chat_id)
+                self.save_message(update, answer)
                 r, jr = self.get_request(url)
                 logger.info("Result: {0}".format(r))
         except Exception as e:

@@ -1,4 +1,6 @@
 from django.db import models
+from datetime import datetime
+import uuid
 
 # Create your models here.
 
@@ -14,3 +16,11 @@ class Bot_user(models.Model):
     def __str__(self):
 
         return self.id + " " + str(self.username)
+
+class Message(models.Model):
+
+    message_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    chat_id = models.CharField(max_length=50)
+    text = models.TextField()
+    time_sent = models.DateTimeField()
+    sent = models.BooleanField(default=False)
