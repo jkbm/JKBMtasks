@@ -1,3 +1,3 @@
 {% for message in messages %}
-<p style="background-color: firebrick;">{{ message:0 }} | {{ message.1 |safe }}</p>
+<p style="background-color: firebrick;">{{ message.0 }} | {{ message.1 |safe }}</p>
 {% endfor %}
