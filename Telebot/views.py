@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .bot.bot_core import setup_webhook, Bot
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from Telebot.models import Message
+from Telebot.models import Message, Bot_user
 
 # Create your views here.
 import json
@@ -49,5 +49,14 @@ def webhook(request):
 def show_history(request, chat_id):
 
     messages = Message.objects.filter(chat_id=chat_id)
+    user = Bot_user.objects.filter(id=chat_id)
+    username = "{0} '{1}' {2}".format(user.first_name, user.user_name, user.last_name)
+    messages_tuple = []
+    for m in messages:
+        if m.sent == True:
+            messages_tuple.append((m.text, "BOT"))
+        else:
+            messages_tuple.append((m.text, username))
 
-    return render(request, "Telebot/history.html", {'messages': messages})
+
+    return render(request, "Telebot/history.html", {'messages': messages_tuple})
