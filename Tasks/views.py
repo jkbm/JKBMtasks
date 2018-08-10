@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from .models import *
-from .forms import NewTaskForm
+from .forms import NewTaskForm, TaskModelFormset
 
 from datetime import datetime
 
@@ -27,22 +27,36 @@ def new_task(request):
     """
     View for creaing new tasks
     """
+    template_name = 'Tasks/newtask.html'
+    heading_message = 'Add New Tasks'
+    if request.method == 'GET':
+        # we don't want to display the already saved model instances
+        formset = TaskModelFormset(queryset=Task.objects.none())
+    elif request.method == 'POST':
+        formset = TaskModelFormset(request.POST)
+        if formset.is_valid():
+            logger.info(len(formset))
+            for form in formset:
+                if form.is_valid():
+                    if form.cleaned_data.get('title'):
+                        task = form.save(commit=False)
+                        task.created_by = request.user
+                        task.finish_date = task.start_date
+                        task.save()
+                        logger.info(task)
+                else:
+                    logger.error("Form is invalid! %s" % form)
+            messages.info(request, 'Task(-s) created by {0}.'.format(request.user))
+            return redirect('Tasks:home')
+    return render(request, template_name, {
+            'formset': formset,
+            'heading': heading_message,
+        })
 
-    if request.method == "POST":
-        form = NewTaskForm(request.POST)
-        if form.is_valid():
-            task = form.save(commit=False)
-            task.created_by = request.user
-            task.finish_date = task.start_date
-            logger.info("The value of user is %s", task.created_by)
-            task.save()
-            if 'create' in request.POST:
-                messages.info(request, 'Task(-s) created by {0}.'.format(request.user))
-                return redirect('Tasks:home')
-    else:
-        form = NewTaskForm()
+def temp(request):
+    template_name = 'Tasks/newtask.html'
 
-    return render(request, 'Tasks/newtask.html', {'form': form,})
+    return redirect('Tasks:home')
 
 @login_required
 def task_management(request):

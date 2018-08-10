@@ -14,10 +14,12 @@ $( function() {
         <form  method="POST"> {% csrf_token %}
             {% for task in tasks%}
             <label name ="task" value="{{ task.task_id }}" >{{ task.title }}: {{ task.description }}</label>            
-            <label>Completed: <input type="checkbox" name="complete" value="{{ task.task_id }}"></label>
-            <br>
+            <label class="checkbox-container">Completed: <input type="checkbox" name="complete" value="{{ task.task_id }}">
+            <span class="checkmark"></span>
+            </label>
+            <hr>
             {% endfor %}  
-            <input type="submit" value="Confirm">         
+            <input type="submit" class="btn btn-light" value="Confirm">         
         </form>
         </p>
 
