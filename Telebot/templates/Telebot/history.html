@@ -1,3 +1,12 @@
 {% for message in messages %}
+<style>
+    p{
+        color: white;
+        font-size: 12px;
+    }
+    body{
+        background-color:darkslategray;
+    }
+</style>
 <p style="{% if message.1 == 'BOT' %} background-color: red; {% else %} background-color: green; {% endif %}">{{ message.1 }} | {{ message.0 |safe }}</p>
 {% endfor %}
