@@ -84,7 +84,7 @@ class Bot:
 
     def save_message(self, update, text=None):
 
-        params = {'chat_id': update['from']['id'],
+        params = {'chat_id': update['message']['from']['id'],
                   'time_sent': datetime.fromtimestamp(update['date'])}
 
         if text == None:
