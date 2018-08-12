@@ -8,7 +8,7 @@
         <form  method="POST"> {% csrf_token %}
             {% for task in tasks%}
             <label name ="task" value="{{ task.task_id }}" >{{ task.title }}: {{ task.description }}</label>            
-            <label class="checkbox-container">Completed: <input type="checkbox" name="complete" value="{{ task.task_id }}">
+            <label class="checkbox-container"> - completed <input type="checkbox" name="complete" value="{{ task.task_id }}">
             <span class="checkmark"></span>
             </label>
             <hr>

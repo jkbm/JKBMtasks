@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import NewTaskForm, TaskModelFormset
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import logging
 
@@ -41,7 +41,7 @@ def new_task(request):
                     if form.cleaned_data.get('title'):
                         task = form.save(commit=False)
                         task.created_by = request.user
-                        task.finish_date = task.start_date
+                        task.finish_date = task.start_date + timedelta(days=10)
                         task.save()
                         logger.info(task)
                 else:
@@ -101,3 +101,4 @@ def task(request, task_id):
     task = Task.objects.get(task_id=task_id)
 
     return render(request, 'Tasks/task-detail.html', {'task': task})
+

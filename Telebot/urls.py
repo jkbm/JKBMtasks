@@ -8,8 +8,7 @@ app_name = "Telebot"
 urlpatterns = [
     url(r'^$', views.index, name='home'),
     path('webhook/', views.webhook, name='webhook'),
+    path('trigger/', views.trigger, name='trigger'),
     path('history/<chat_id>', views.show_history, name='history'),
-
-
 
 ]

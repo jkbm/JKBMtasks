@@ -134,10 +134,10 @@ class Bot:
         except Exception as e:
             logger.error("Response error: {0}: {1}".format(e, e.args))
  
-    def send_tasks(self):
+    def send_tasks(self, chat_id="263702884"):
         tasks = Task.objects.all()
         tasks_names = [t.title for t in tasks]
-        self.send_response(tasks_names)
+        url = URL + "sendMessage?parse_mode=html&text={0}&chat_id={1}".format(tasks_names, chat_id)
 
 
 if __name__ == "__main__":
