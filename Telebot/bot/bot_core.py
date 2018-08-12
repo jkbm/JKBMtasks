@@ -5,7 +5,7 @@ import json
 import logging
 from Tasks.models import Task
 from ..models import Bot_user, Message
-from .bot_response import get_answer
+from .bot_response import get_answer, get_tasks
 from datetime import datetime
 
 logger = logging.getLogger('django')
@@ -135,9 +135,10 @@ class Bot:
             logger.error("Response error: {0}: {1}".format(e, e.args))
  
     def send_tasks(self, chat_id="263702884"):
-        tasks = Task.objects.all()
-        tasks_names = [t.title for t in tasks]
-        url = URL + "sendMessage?parse_mode=html&text={0}&chat_id={1}".format(tasks_names, chat_id)
+        user = {'id': chat_id}
+        text = "/tasks"
+        tasks = get_tasks(text, user)
+        url = URL + "sendMessage?parse_mode=html&text={0}&chat_id={1}".format(tasks, chat_id)
         r, jr = self.get_request(url)
         logger.info(r)
 
