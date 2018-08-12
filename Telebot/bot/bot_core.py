@@ -138,7 +138,7 @@ class Bot:
         tasks = Task.objects.all()
         tasks_names = [t.title for t in tasks]
         url = URL + "sendMessage?parse_mode=html&text={0}&chat_id={1}".format(tasks_names, chat_id)
-        r, jr = sef.get_request(url)
+        r, jr = self.get_request(url)
         logger.info(r)
 
 
