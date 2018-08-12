@@ -72,7 +72,7 @@ def get_tasks(text, user):
             task.save()
             answer = task
         else:
-            answer = "Incorect command to create a task(Use -<field> <value> template)."
+            answer = "Incorect command to create a task(Use -*field* *value* template)."
     else:       
         tasks = Task.objects.filter(created_by=bot_user.app_user, completed=False, start_date__gte=datetime.now().date()).order_by('start_date')
         answer = "Your tasks: \n"
@@ -109,12 +109,12 @@ def get_help(text, user):
     'Help' commands answers
     """
     words = text.split()
-    answer = "This <b>Bot</b> designed to help you manage you daily tasks. Use '/tasks' to display your current tasks. Send '/help <command>' to get more detailed info."
-    
-    if words[1] == "tasks":
-        answer = "Use:\n '/tasks' to display current tasks; \n '/tasks add -t <title> -d <description>' to add new task; \n '/tasks complete <title>' to mark a task completed."
-    elif words[1] == "user":
-        answer = "User '/user' to modify your account settings."
+    answer = "This <b>Bot</b> designed to help you manage you daily tasks. Use '/tasks' to display your current tasks. Send '/help *command*' to get more detailed info."
+    if len(words)>1:
+        if words[1] == "tasks":
+            answer = "Use:\n '/tasks' to display current tasks; \n '/tasks add -t *title* -d *description*' to add new task; \n '/tasks complete *title*' to mark a task completed."
+        elif words[1] == "user":
+            answer = "User '/user' to modify your account settings."
 
     return answer
 
