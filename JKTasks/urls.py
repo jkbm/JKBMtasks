@@ -20,11 +20,10 @@ from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', include('Tasks.urls')),
+    path('tasks/', views.index, name='index'),
     path('index/', views.index, name='index'),
     path('admin/', admin.site.urls),
     path('accounts/login/', auth_views.login, name='login'),
-    path('tasks/', include('Tasks.urls')),
     path('bot/', include('Telebot.urls')),
-    
 ]
