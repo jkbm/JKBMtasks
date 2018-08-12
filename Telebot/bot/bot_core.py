@@ -7,10 +7,11 @@ from Tasks.models import Task
 from ..models import Bot_user, Message
 from .bot_response import get_answer, get_tasks
 from datetime import datetime
+import os
 
 logger = logging.getLogger('django')
 
-ACCESS_TOKEN = "620194850:AAFmKn8NBdgbWLWTbPlvd1uOdBd6kLWYkQk"
+ACCESS_TOKEN = os.environ.get("TELEGRAM_TOKEN", "")
 myurl = "https://fierce-bayou-86062.herokuapp.com/bot/webhook/"
 URL = "https://api.telegram.org/bot%s/" % ACCESS_TOKEN
 
