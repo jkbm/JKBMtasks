@@ -82,7 +82,8 @@ def get_tasks(text, user):
             task = Task.objects.create(**params)
             task.created_by_bot = bot_user
             task.save()
-            answer = task
+            
+            answer = "Task '{0}' created. You need to complete it by {1}.".format(task.title, task.finish_date)
         else:
             answer = "Incorect command to create a task(Use -*field* *value* template)."
     else:       
