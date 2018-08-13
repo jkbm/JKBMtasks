@@ -21,7 +21,7 @@ def build_keyboard(items):
     reply_markup = {"keyboard":keyboard, "one_time_keyboard": True}
     return json.dumps(reply_markup)
 
-def get_answer(update):
+def get_answer(update, reply_markup=None):
     """
     Answer generating root function
     """
@@ -164,6 +164,7 @@ def get_context(text, user):
     if messages[0].text == "/complete":
         task = Task.objects.get(title=text)
         task.completed = True
+        task.save()
         context_answer = "Task '{0}' is completed.".format(text)
     return context_answer
 
