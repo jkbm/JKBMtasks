@@ -127,11 +127,8 @@ class Bot:
             user.pop('language_code')
             self.get_bot_user(user)
             chat_id = update['message']['chat']['id']
-            answer = get_answer(update)
+            answer, reply_markup = get_answer(update)
             self.save_message(update)
-            reply_markup = build_keyboard(['x', 'y', 'z'])
-            logger.info(reply_markup)
-
             if chat_id != "":
                 url = URL + "sendMessage?parse_mode=html&text={0}&chat_id={1}".format(answer, chat_id)
                 if reply_markup:                    
