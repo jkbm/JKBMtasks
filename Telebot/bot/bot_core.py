@@ -109,15 +109,17 @@ class Bot:
             text = last_text
         else:
             text = "Your tasks: %s" % text
-        self.save_message(last_update)
+        
         answer, reply_markup = get_answer(last_update)
-        self.save_message(last_update, answer)
+        
         if chat_id != "":
             url = URL + "sendMessage?parse_mode=html&text={0}&chat_id={1}".format(answer, chat_id)
             if reply_markup:
                 url += "&reply_markup={0}".format(reply_markup)
             r, jr = self.get_request(url)
             logger.info("Result: {0}".format(r))
+            self.save_message(last_update)
+            self.save_message(last_update, answer)
     
     def send_wh_response(self, update=None, reply_markup=None):
         try:

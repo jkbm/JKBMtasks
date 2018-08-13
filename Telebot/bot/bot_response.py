@@ -160,10 +160,8 @@ def get_help(text, user):
 
 def get_context(text, user):
     messages = Message.objects.filter(chat_id=user['id'], sent=False).order_by('-time_sent')
-
-    logger.info("Prev msg: %s" % ";".join([m.text for m in messages[:5]))
     context_answer = None
-    if messages.text == "/complete":
+    if messages[0].text == "/complete":
         task = Task.objects.get(title=text)
         task.completed = True
         context_answer = "Task '{0}' is completed.".format(text)
