@@ -1,6 +1,6 @@
 # Taks Bot response generator file
 
-from Telebot.models import Bot_user
+from Telebot.models import Bot_user, Message
 from Tasks.models import Task, User
 from datetime import datetime
 import random
@@ -34,8 +34,12 @@ def get_answer(update):
     elif text.lower() in commands['heys'][0]:
         answer = random.choice(commands['heys'][1])
     else:
-        answer = "Please use '/help' to discover available commands."
-    print(reply_markup)
+        context = get_context(text, user)
+        if context:
+            answer = context
+        else:
+            answer = "Please use '/help' to discover available commands. Your previous messages was '%s'" % context
+    answer = urllib.parse.quote_plus(answer)
     return answer, reply_markup
 
 
@@ -60,8 +64,7 @@ def get_command(update, text, user):
     elif words[0] == "/complete":
         answer = complete_tasks(text, user)
     else:
-        context = get_context(text, user)
-        answer = "There is no such command. Your previous messages was '%s'" % context
+        answer = "There is no such command."
 
     return answer
 
@@ -156,8 +159,13 @@ def get_help(text, user):
     return answer
 
 def get_context(text, user):
-    messages = Message.objeccts.filter(chat_id=user['id'], sent=True)
-    return messages[-1].text
+    messages = Message.objects.filter(chat_id=user['id'], sent=False).order_by('-time_sent')[1]
+    context_answer = None
+    if messages.text == "/complete":
+        task = Task.objects.get(title=text)
+        task.completed = True
+        context_answer = "Task '{0}' is completed.".format(text)
+    return context_answer
 
 
 
