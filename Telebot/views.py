@@ -8,6 +8,7 @@ from Telebot.models import Message, Bot_user
 
 
 # Create your views here.
+import os
 import json
 import logging
 logger = logging.getLogger('django')
@@ -30,8 +31,8 @@ def webhook(request):
     """
     View to test and setup webhook if necessary
     """
-    mode = "get" #Set to "wh" to setup and use Webhook
-    if mode == "wh":
+    mode = os.environ.get("BOT_MODE", "") #Set to "wh" to setup and use Webhook
+    if mode == "WH":
         setup_webhook()
 
         if request.method == "POST":
@@ -41,7 +42,7 @@ def webhook(request):
             logger.info(info)
             task_bot = Bot()
             task_bot.send_wh_response(jdata)
-    elif mode == "get":
+    elif mode == "GET":
         setup_webhook('delete')
         task_bot = Bot()
         task_bot.get_updates()
