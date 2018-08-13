@@ -60,7 +60,8 @@ def get_command(update, text, user):
     elif words[0] == "/complete":
         answer = complete_tasks(text, user)
     else:
-        answer = "There is no such command."
+        context = get_context(text, user)
+        answer = "There is no such command. Your previous messages was '%s'" % context
 
     return answer
 
@@ -153,6 +154,10 @@ def get_help(text, user):
             answer = "User '/user' to modify your account settings."
 
     return answer
+
+def get_context(text, user):
+    messages = Message.objeccts.filter(chat_id=user['id'], sent=True)
+    return messages[-1].text
 
 
 
