@@ -37,7 +37,10 @@ def setup_webhook(action='get'):
         
     
 
-
+def build_keyboard(items):
+    keyboard = [[item] for item in items]
+    reply_markup = {"keyboard":keyboard, "one_time_keyboard": True}
+    return json.dumps(reply_markup)
 
 
 class Bot:
@@ -98,7 +101,7 @@ class Bot:
 
         message = Message.objects.create(**params)
 
-    def send_response(self, text=None):
+    def send_response(self, text=None, reply_markup=None):
         #get_url = "{0}sendMessage?chat_id={1}&text={2}".format(URL, self.messages[0][0]['id'], text)
         #self.sent = json.loads(requests.get(get_url).text)
         last_text, chat_id, last_update = self.get_last_chat_id_and_text()
@@ -107,16 +110,16 @@ class Bot:
         else:
             text = "Your tasks: %s" % text
         self.save_message(last_update)
-        answer = get_answer(last_update)
+        answer, reply_markup = get_answer(last_update)
         self.save_message(last_update, answer)
         if chat_id != "":
             url = URL + "sendMessage?parse_mode=html&text={0}&chat_id={1}".format(answer, chat_id)
+            if reply_markup:
+                url += "&reply_markup={0}".format(reply_markup)
             r, jr = self.get_request(url)
             logger.info("Result: {0}".format(r))
     
-    def send_wh_response(self, update=None):
-        #get_url = "{0}sendMessage?chat_id={1}&text={2}".format(URL, self.messages[0][0]['id'], text)
-        #self.sent = json.loads(requests.get(get_url).text)
+    def send_wh_response(self, update=None, reply_markup=None):
         try:
             logger.info("Update: {0}".format(update))
             user = update['message']['from']
@@ -126,9 +129,13 @@ class Bot:
             chat_id = update['message']['chat']['id']
             answer = get_answer(update)
             self.save_message(update)
-            
+            reply_markup = build_keyboard(['x', 'y', 'z'])
+            logger.info(reply_markup)
+
             if chat_id != "":
                 url = URL + "sendMessage?parse_mode=html&text={0}&chat_id={1}".format(answer, chat_id)
+                if reply_markup:                    
+                    url += "&reply_markup={0}".format(reply_markup)
                 self.save_message(update, answer)
                 r, jr = self.get_request(url)
                 logger.info("Result: {0}".format(r))
@@ -138,10 +145,12 @@ class Bot:
     def send_tasks(self, chat_id="263702884"):
         user = {'id': chat_id}
         text = "/tasks"
-        tasks = get_tasks(text, user)
-        url = URL + "sendMessage?parse_mode=html&text={0}&chat_id={1}".format(tasks, chat_id)
-        r, jr = self.get_request(url)
-        logger.info(r)
+        bot_user = Bot_user.objects.get(id=user['id'])
+        if bot_user.daily == True:
+            tasks = get_tasks(text, user)
+            url = URL + "sendMessage?parse_mode=html&text={0}&chat_id={1}".format(tasks, chat_id)
+            r, jr = self.get_request(url)
+            logger.info("Tasks sent: %s" % r)
 
 
 if __name__ == "__main__":

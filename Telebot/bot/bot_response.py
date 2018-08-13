@@ -4,12 +4,22 @@ from Telebot.models import Bot_user
 from Tasks.models import Task, User
 from datetime import datetime
 import random
+import urllib
+import json
 
 import logging
 
 logger = logging.getLogger('django')
 
 commands = {'heys': (['hello', 'hi', 'hey', 'greetings' 'sup', 'wassup', 'привет'], ['Hello', 'Hey, there', 'Hi!', 'Greetings!'])}
+
+global reply_markup
+reply_markup = None
+
+def build_keyboard(items):
+    keyboard = [[item] for item in items]
+    reply_markup = {"keyboard":keyboard, "one_time_keyboard": True}
+    return json.dumps(reply_markup)
 
 def get_answer(update):
     """
@@ -25,8 +35,8 @@ def get_answer(update):
         answer = random.choice(commands['heys'][1])
     else:
         answer = "Please use '/help' to discover available commands."
-    
-    return answer
+    print(reply_markup)
+    return answer, reply_markup
 
 
 def get_command(update, text, user):
@@ -47,6 +57,8 @@ def get_command(update, text, user):
         answer = get_user(text, user)
     elif words[0] == "/tasks":
         answer = get_tasks(text, user)
+    elif words[0] == "/complete":
+        answer = complete_tasks(text, user)
     else:
         answer = "There is no such command."
 
@@ -78,6 +90,29 @@ def get_tasks(text, user):
         answer = "Your tasks: \n"
         for task in tasks:
             answer += "<b>{0}</b>: <i>{1}.</i> Complete by: {2}\n".format(task.title, task.description, task.finish_date)        
+
+    return answer
+
+def complete_tasks(text, user):
+    """
+    Orginise task completion diagloge
+    """
+    bot_user = Bot_user.objects.get(id=user['id'])
+    tasks = Task.objects.filter(created_by=bot_user.app_user, completed=False, start_date__gte=datetime.now().date()).order_by('start_date')
+    words = text.split()
+    titles = [task.title for task in tasks]
+    if len(words) == 1:
+        answer = "Choose witch task to mark 'completed'."        
+        global reply_markup
+        reply_markup = build_keyboard(titles)
+    elif " ".join(words[1:]) in titles:
+        task = Task.objects.get(title=" ".join(words[1:]))
+        task.completed = True
+        task.save()
+        answer = "Task '{0}' is completed.".format(" ".join(words[1:]))
+    else:
+        answer = "No such task. Try again or use /tasks to see a list of your active tasks."
+
 
     return answer
 
