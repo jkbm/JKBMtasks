@@ -10,7 +10,7 @@
         background-color:darkslategray;
     }
 </style>
-{% for message in messages %}
+{% for message in chat_messages %}
 
 <p style="{% if message.1 == 'BOT' %} background-color: red; {% else %} background-color: green; {% endif %}">{{ message.1 }} | {{ message.0 |safe }}</p>
 {% endfor %}

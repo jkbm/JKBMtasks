@@ -66,7 +66,7 @@ def show_history(request, chat_id):
             messages_tuple.append((m.text, username))
 
 
-    return render(request, "Telebot/history.html", {'messages': messages_tuple})
+    return render(request, "Telebot/history.html", {'chat_messages': messages_tuple})
 
 def trigger(request, uid=None):
 
