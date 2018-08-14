@@ -1,4 +1,6 @@
-{% for message in messages %}
+{% extends 'Tasks/base.html' %}
+
+{% block content %}
 <style>
     p{
         color: white;
@@ -8,5 +10,9 @@
         background-color:darkslategray;
     }
 </style>
+{% for message in messages %}
+
 <p style="{% if message.1 == 'BOT' %} background-color: red; {% else %} background-color: green; {% endif %}">{{ message.1 }} | {{ message.0 |safe }}</p>
 {% endfor %}
+
+{% endblock %}

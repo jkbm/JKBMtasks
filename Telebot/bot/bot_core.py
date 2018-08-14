@@ -130,11 +130,12 @@ class Bot:
             self.get_bot_user(user)
             chat_id = update['message']['chat']['id']
             answer, reply_markup = get_answer(update)
-            self.save_message(update)
+            
             if chat_id != "":
                 url = URL + "sendMessage?parse_mode=html&text={0}&chat_id={1}".format(answer, chat_id)
                 if reply_markup:                    
                     url += "&reply_markup={0}".format(reply_markup)
+                self.save_message(update)
                 self.save_message(update, answer)
                 r, jr = self.get_request(url)
                 logger.info("Result: {0}".format(r))
