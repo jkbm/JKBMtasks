@@ -64,6 +64,8 @@ def show_history(request, chat_id):
             messages_tuple.append((m.text, "BOT"))
         else:
             messages_tuple.append((m.text, username))
+    
+    logger.info("Number: %s" % len(messages_tuple))
 
 
     return render(request, "Telebot/history.html", {'chat_messages': messages_tuple})
