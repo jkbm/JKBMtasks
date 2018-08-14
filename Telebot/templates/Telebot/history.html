@@ -12,7 +12,7 @@
 </style>
 {% for cmessage in chat_messages %}
 
-<p style="{% if cmessage.1 == 'BOT' %} background-color: red; {% else %} background-color: green; {% endif %}">{{ cmessage.1 }} | {{ cmessage.0 }}</p>
+<p style="{% if cmessage.1 == 'BOT' %} background-color: red; {% else %} background-color: green; {% endif %}">{{ cmessage.1 }} | {% autoescape on %}{{ cmessage.0 }}{% endautoescape %}</p>
 {% endfor %}
 
 {% endblock %}
