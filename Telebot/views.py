@@ -31,6 +31,7 @@ def webhook(request):
     """
     View to test and setup webhook if necessary
     """
+
     mode = os.environ.get("BOT_MODE", "") #Set to "wh" to setup and use Webhook
     if mode == "WH":
         setup_webhook()
@@ -51,6 +52,9 @@ def webhook(request):
     return render(request, 'Telebot/webhook.html')
 
 def show_history(request, chat_id):
+    """
+    View to display dialog history with specific user
+    """
 
     messages = Message.objects.filter(chat_id=chat_id)
     user = Bot_user.objects.get(id=chat_id)
@@ -71,6 +75,9 @@ def show_history(request, chat_id):
     return render(request, "Telebot/history.html", {'chat_messages': messages_tuple})
 
 def trigger(request, uid=None):
+    """
+    View to trigger custom
+    """
 
     bot = Bot()
     bot.send_tasks()

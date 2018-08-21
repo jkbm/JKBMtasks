@@ -8,6 +8,9 @@ from django.conf import settings
 # Create your models here.
 
 class Task(models.Model):
+    """
+    General task model
+    """
 
     task_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=200, unique=False)

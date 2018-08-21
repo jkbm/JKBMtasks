@@ -5,6 +5,9 @@ import uuid
 # Create your models here.
 
 class Bot_user(models.Model):
+    """
+    Telegram user model
+    """
 
     id = models.CharField(primary_key=True, max_length=100, null=False, blank=False)
     first_name = models.CharField(max_length=50, null=True, blank=True)
@@ -18,6 +21,9 @@ class Bot_user(models.Model):
         return self.id + " " + str(self.username)
 
 class Message(models.Model):
+    """
+    Bot message model(sent and recieved)
+    """
 
     message_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     chat_id = models.CharField(max_length=50)

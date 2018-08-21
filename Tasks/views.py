@@ -81,6 +81,9 @@ def task_management(request):
 
 @login_required
 def tasks(request, task_type='all'):
+    """
+    Tasks list by type
+    """
 
     if task_type == 'past':
         tasks = Task.objects.filter(created_by=request.user, start_date__lt=datetime.now().date())

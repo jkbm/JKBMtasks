@@ -146,7 +146,7 @@ class Bot:
         user = {'id': chat_id}
         text = "/tasks"
         bot_user = Bot_user.objects.get(id=user['id'])
-        if bot_user.daily == True:
+        if bot_user.daily_tasks == True:
             tasks = get_tasks(text, user)
             url = URL + "sendMessage?parse_mode=html&text={0}&chat_id={1}".format(tasks, chat_id)
             r, jr = self.get_request(url)
