@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from rest_framework import viewsets
 
 from .models import *
 from .forms import NewTaskForm, TaskModelFormset
+from .serializers import TaskSerializer
 
 from datetime import datetime, timedelta
 import os
@@ -105,4 +107,17 @@ def task(request, task_id):
     task = Task.objects.get(task_id=task_id)
 
     return render(request, 'Tasks/task-detail.html', {'task': task})
+
+
+class TaskViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows tasks to be viewed or edited.
+    """
+    queryset = Task.objects.all().order_by('-start_date')
+    serializer_class = TaskSerializer
+
+    def perform_create(self, serializer):
+        """Save the post data when creating a new bucketlist."""
+        serializer.save()
+
 

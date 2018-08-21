@@ -18,6 +18,7 @@ from django.urls import path
 from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
 from . import views
+from rest_framework import routers
 
 urlpatterns = [
     path('', include('Tasks.urls')),
@@ -26,4 +27,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/login/', auth_views.login, name='login'),
     path('bot/', include('Telebot.urls')),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

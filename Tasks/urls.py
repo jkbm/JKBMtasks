@@ -3,6 +3,7 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
+from rest_framework.urlpatterns import format_suffix_patterns
 
 app_name = "Tasks"
 urlpatterns = [
@@ -13,6 +14,9 @@ urlpatterns = [
     path('task/<task_id>', views.task, name='task'),
     path('manage', views.task_management, name='task_management'),
     path('temp/', views.temp, name='temp'),
+    path('api/tasks', views.TaskViewSet.as_view({'get': 'list'}), name='api-tasks')
 
 
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
