@@ -21,14 +21,14 @@ def build_keyboard(items):
     reply_markup = {"keyboard":keyboard, "one_time_keyboard": True}
     return json.dumps(reply_markup)
 
-def get_answer(update, reply_markup=None):
+def get_answer(update, reply_markup):
     """
     Answer generating root function
     """
     logger.info("Generating answer...")
     text = update['message']['text']
     user = update['message']['chat']
-
+    reply_markup = None
     if text.startswith('/'):
         answer = get_command(update, text, user)
     elif text.lower() in commands['heys'][0]:
@@ -111,7 +111,7 @@ def complete_tasks(text, user):
         global reply_markup
         reply_markup = build_keyboard(titles)
     elif " ".join(words[1:]) in titles:
-        task = Task.objects.get(title=" ".join(words[1:]))
+        task = Task.objects.filter(title=" ".join(words[1:]))[0]
         task.completed = True
         task.save()
         answer = "Task '{0}' is completed.".format(" ".join(words[1:]))
