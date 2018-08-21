@@ -106,6 +106,7 @@ def complete_tasks(text, user):
     tasks = Task.objects.filter(created_by=bot_user.app_user, completed=False, start_date__gte=datetime.now().date()).order_by('start_date')
     words = text.split()
     titles = [task.title for task in tasks]
+    logger.info(titles)
     if len(words) == 1:
         answer = "Choose witch task to mark 'completed'."        
         global reply_markup
