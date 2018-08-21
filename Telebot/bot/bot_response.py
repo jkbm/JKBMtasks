@@ -21,7 +21,7 @@ def build_keyboard(items):
     reply_markup = {"keyboard":keyboard, "one_time_keyboard": True}
     return json.dumps(reply_markup)
 
-def get_answer(update, reply_markup):
+def get_answer(update, reply_markup=None):
     """
     Answer generating root function
     """
