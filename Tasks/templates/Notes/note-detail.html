@@ -1,0 +1,9 @@
+{% extends 'Tasks/base.html' %}
+
+{% block content %}
+    <a href='{% url "Tasks:new_note" %}'>Create new note</a>
+    <h2>Note: {{ note.title }}</h2>
+    <p>{{ note.description }}</p>
+    <p>Created on {{ note.created_date }} by {{ note.created_by }}.</p>
+
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'Tasks/base.html' %}
+
+{% block content %}
+    <div>
+        <h2>Your notes:</h2>
+        {% for note in notes %}
+            <p><a href="{% url 'Tasks:note' note_id=note.note_id %}">{{ note }}</a></p>
+        {% endfor %}
+        <hr>
+        <a href='{% url "Tasks:new_note" %}'><button type="button" class="btn btn-light">Create new note</button></a>
+    </div>
+
+{% endblock %}

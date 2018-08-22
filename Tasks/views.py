@@ -55,6 +55,7 @@ def new_task(request):
             'formset': formset,
             'heading': heading_message,
         })
+
 @login_required
 def notes(request):
     """
@@ -65,6 +66,15 @@ def notes(request):
 
     return render(request, 'Notes/notes.html', {'notes': notes})
 
+@login_required
+def note(reqest, note_id):
+    """
+    Note detail view
+    """
+
+    note = Note.objects.get(note_id=note_id)
+
+    return render(reqest, 'Notes/note-detail.html', {'note': note})
 @login_required
 def new_note(request):
     """

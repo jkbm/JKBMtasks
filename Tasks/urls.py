@@ -13,6 +13,7 @@ urlpatterns = [
     path('tasks/<task_type>/', views.tasks, name='tasks'),
     path('task/<task_id>', views.task, name='task'),
     path('notes/', views.notes, name='notes'),
+    path('notes/<note_id>', views.note, name='note'),
     path('notes/new', views.new_note, name='new_note'),
     path('manage', views.task_management, name='task_management'),
     path('temp/', views.temp, name='temp'),
