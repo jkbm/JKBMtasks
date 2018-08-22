@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import formset_factory
 from django.db.models import Q
-from .models import Task
+from .models import Task, Note
 
 class DateInput(forms.DateInput):
     input_type = 'date'
@@ -15,6 +15,14 @@ class NewTaskForm(forms.ModelForm):
             'made_on': DateInput(),
         }
 
+class NewNoteForm(forms.ModelForm):
+
+    class Meta:
+        model = Note
+        fields = ['title', 'description', 'created_date']
+        widgets = {
+            'created_date': DateInput(),
+        }
 from django.forms import modelformset_factory
 
 TaskModelFormset = modelformset_factory(

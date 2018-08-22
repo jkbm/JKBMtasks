@@ -1,0 +1,24 @@
+{% extends 'Tasks/base.html' %}
+
+{% block content %}
+<script>
+    function validateAndSend() {
+        if (noteForm.title.value == ' ' && noteForm.description.value == '') {
+            alert('You have to fill at least one field.');
+            console.log('Form is gut')
+            return false;
+        }
+        else {
+            alert('All is gut')
+            noteForm.submit();
+        }
+    }
+</script>
+<form name="noteForm" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" onclick="validateAndSend()">
+</form>
+
+
+{% endblock %}

@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from rest_framework import viewsets
 
 from .models import *
-from .forms import NewTaskForm, TaskModelFormset
+from .forms import NewTaskForm, TaskModelFormset, NewNoteForm
 from .serializers import TaskSerializer
 
 from datetime import datetime, timedelta
@@ -55,6 +55,43 @@ def new_task(request):
             'formset': formset,
             'heading': heading_message,
         })
+@login_required
+def notes(request):
+    """
+    List notes view
+    """
+
+    notes = Note.objects.filter(created_by=request.user)
+
+    return render(request, 'Notes/notes.html', {'notes': notes})
+
+@login_required
+def new_note(request):
+    """
+    View for creating new notes
+    """
+
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = NewNoteForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            logger.info("form is valid")
+            note = form.save(commit=False)
+            note.created_by = request.user
+            note.save()
+
+            messages.info(request, 'Note(-s) created by {0}.'.format(request.user))
+            return redirect('/')
+        else:
+            logger.error("form is invalid")
+            messages.error(request, 'FORM INVALID')
+            return redirect('Tasks:new_note')
+
+    else:
+        form = NewNoteForm()
+
+    return render(request, 'Notes/newnote.html', {'form': form})
 
 def temp(request):
     template_name = 'Tasks/newtask.html'

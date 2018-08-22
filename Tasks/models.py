@@ -23,3 +23,19 @@ class Task(models.Model):
 
     def __str__(self):
         return "{0} | {1} [{2}]".format(self.title, self.start_date, self.completed)
+
+class Note(models.Model):
+    """
+    General note model
+    """
+
+    note_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=200, null=True, blank=True, default=" ")
+    description = models.TextField(max_length=600, blank=True, null=True)
+    created_date = models.DateField(null=True, blank=True)
+    created_by = models.ForeignKey('auth.User', null=True, blank=True, on_delete=models.SET_NULL)
+    created_by_bot = models.ForeignKey(Bot_user, null=True, blank=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+
+        return "Note"
