@@ -1,11 +1,22 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from rest_framework import viewsets
+from django.views.generic import TemplateView, View
 
 from .models import *
 from .forms import NewTaskForm, TaskModelFormset, NewNoteForm
-from .serializers import TaskSerializer
+
+#DRF portion of imports
+from rest_framework import status, renderers
+from rest_framework.views import APIView
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import mixins
+from rest_framework import generics
+from .serializers import TaskSerializer, StandardTaskSerializer
+
 
 from datetime import datetime, timedelta
 import os
@@ -75,6 +86,7 @@ def note(reqest, note_id):
     note = Note.objects.get(note_id=note_id)
 
     return render(reqest, 'Notes/note-detail.html', {'note': note})
+
 @login_required
 def new_note(request):
     """
@@ -104,9 +116,17 @@ def new_note(request):
     return render(request, 'Notes/newnote.html', {'form': form})
 
 def temp(request):
-    template_name = 'Tasks/newtask.html'
+    template_name = 'Tasks/temp.html'
+    context = {
 
-    return redirect('Tasks:home')
+    }
+    return render(request, template_name)
+    #return redirect('Tasks:home')
+
+def temp_data(request):
+    task_num = len(Task.objects.all())
+
+    return JsonResponse({'tasks':task_num})
 
 @login_required
 def task_management(request):
@@ -117,13 +137,12 @@ def task_management(request):
 
     if request.method == "POST":
         logger.info(request.POST)
-        ids = request.POST.getlist('complete', '')
-        for task_id in ids:        
+        ids_complete = request.POST.getlist('complete', '')
+        for task_id in ids_complete:        
             if task_id != '':
                 task = Task.objects.get(task_id=task_id)
                 task.completed = True
                 task.save()
-
 
 
     return render(request, 'Tasks/manage.html', {'tasks': tasks})
@@ -155,6 +174,13 @@ def task(request, task_id):
 
     return render(request, 'Tasks/task-detail.html', {'task': task})
 
+@login_required
+def task_delete(request, task_id):
+    task = Task.objects.get(task_id=task_id)
+    task.delete()
+    messages.info(request, 'Task was deleted.')
+    #redirect to prev. page
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 class TaskViewSet(viewsets.ModelViewSet):
     """
@@ -162,9 +188,25 @@ class TaskViewSet(viewsets.ModelViewSet):
     """
     queryset = Task.objects.all().order_by('-start_date')
     serializer_class = TaskSerializer
+    renderer_classes = [renderers.JSONRenderer]
 
     def perform_create(self, serializer):
         """Save the post data when creating a new bucketlist."""
         serializer.save()
 
+class TaskList(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
 
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+class TaskDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer

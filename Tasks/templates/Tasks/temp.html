@@ -2,6 +2,27 @@
 
 {% block content %}
 
+<script>
+var interval = 20000;
+setInterval(function(){
+    $.ajax({
+               type: 'GET',
+               url: '{% url "Tasks:api-tasks" %}',
+               processData: true,
+               dataType: 'json',
+               contentType: "application/json",
+               success: function(data ) {
 
+                                    console.log(data)
+                                    $('.status').text("Tasks number: " + data.length)
+
+
+                                    }
+               });
+    }, interval);
+  </script>
+  <div class="status">
+
+  </div>
 
 {% endblock %}

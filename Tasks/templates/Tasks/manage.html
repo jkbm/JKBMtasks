@@ -1,16 +1,28 @@
 {% extends 'Tasks/base.html' %}
 
 {% block content %}
+<script>
+    function confirmed(b, task_id){
+        event.preventDefault();
+        var result = confirm("Want to delete?");
+        if (result) {
+            console.log(task_id)
+            //Logic to delete the item
+            window.location.href = b.getAttribute('href');
+        }
+    }
+    </script>
 <div class="form manage">
         <h2>Complete your tasks:</h2>
         
         <p>
-        <form  method="POST"> {% csrf_token %}
+        <form  id="taskForm" method="POST"> {% csrf_token %}
             {% for task in tasks%}
             <label name ="task" value="{{ task.task_id }}" >{{ task.title }}: {{ task.description }}</label>            
             <label class="checkbox-container"> - completed <input type="checkbox" name="complete" value="{{ task.task_id }}">
             <span class="checkmark"></span>
             </label>
+            <a href="{% url 'Tasks:task_delete' task_id=task.task_id %}" type="button" onclick="confirmed(this, '{{ task.task_id }}')" class="btn btn-danger">Delete</a>  
             <hr>
             {% endfor %}  
             <input type="submit" class="btn btn-light" value="Confirm">         

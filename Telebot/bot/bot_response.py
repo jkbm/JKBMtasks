@@ -8,6 +8,7 @@ import urllib
 import json
 
 import logging
+from django.utils import timezone
 from datetime import datetime, timedelta
 
 logger = logging.getLogger('django')
@@ -86,7 +87,7 @@ def get_tasks(text, user):
                 params[list_arg[0]] = " ".join(list_arg[1:])
             task = Task.objects.create(**params)
             task.created_by_bot = bot_user
-            task.finish_date = datetime.today() + timedelta(days=10)
+            task.finish_date = timezone.now() + timedelta(days=10)
             task.save()
             
             answer = "Task '{0}' created. You need to complete it by {1}.".format(task.title, task.finish_date)

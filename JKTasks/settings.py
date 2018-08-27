@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'Tasks',
     'Telebot',
     'rest_framework',
+    'javascript_settings',
+    
 ]
 
 MIDDLEWARE = [
