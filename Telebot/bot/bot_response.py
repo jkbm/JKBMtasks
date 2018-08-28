@@ -72,7 +72,7 @@ def get_command(update, text, user):
 
 def get_tasks(text, user):
     """
-    Generate 'tasks' command answers
+    Generate '/tasks' command answers
     """
     words = text.split()
     bot_user = Bot_user.objects.get(id=user['id'])
@@ -94,10 +94,13 @@ def get_tasks(text, user):
         else:
             answer = "Incorect command to create a task(Use -*field* *value* template)."
     else:       
-        tasks = Task.objects.filter(created_by=bot_user.app_user, completed=False, start_date__gte=datetime.now().date()).order_by('start_date')
-        answer = "Your tasks: \n"
-        for task in tasks:
-            answer += "<b>{0}</b>: <i>{1}.</i> Complete by: {2}\n".format(task.title, task.description, task.finish_date)        
+        tasks = Task.objects.filter(created_by=bot_user.app_user, completed=False, finish_date__gte=datetime.now().date()).order_by('start_date')
+        if len(tasks) > 0:
+            answer = "Your tasks: \n"
+            for task in tasks:
+                answer += "<b>{0}</b>: <i>{1}.</i> Complete by: {2}\n".format(task.title, task.description, task.finish_date)   
+        else:
+            answer = "You have no tasks.     
 
     return answer
 
