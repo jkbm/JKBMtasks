@@ -100,7 +100,7 @@ def get_tasks(text, user):
             for task in tasks:
                 answer += "<b>{0}</b>: <i>{1}.</i> Complete by: {2}\n".format(task.title, task.description, task.finish_date)   
         else:
-            answer = "You have no tasks.     
+            answer = "You have no tasks."   
 
     return answer
 
