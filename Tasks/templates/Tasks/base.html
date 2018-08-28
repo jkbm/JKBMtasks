@@ -32,6 +32,7 @@
                     <div class="dropdown-menu">
                     <a class="dropdown-item" href="{% url 'Tasks:new_task' %}">New Task</a>
                     <a class="dropdown-item" href="{% url 'Tasks:tasks' task_type='active' %}">Active</a>
+                    <a class="dropdown-item" href="{% url 'Tasks:tasks' task_type='future' %}">Future</a>
                     <a class="dropdown-item" href="{% url 'Tasks:tasks' task_type='past' %}">Past</a>
                     <a class="dropdown-item" href="{% url 'Tasks:tasks' task_type='missed' %}">Missed</a>
                     </div>

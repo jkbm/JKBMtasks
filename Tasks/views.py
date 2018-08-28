@@ -159,6 +159,8 @@ def tasks(request, task_type='all'):
         tasks = Task.objects.filter(created_by=request.user, completed=False, finish_date__gte=datetime.now().date()).order_by('start_date')
     elif task_type == 'missed':
         tasks = Task.objects.filter(created_by=request.user, finish_date__lte=datetime.now().date(), completed=False)
+    elif task_type == 'future':
+        tasks = Task.objects.filter(created_by=request.user, start_date__gte=datetime.now().date(), completed=False)
     else:
         tasks = Task.objects.filter(created_by=request.user)
 
