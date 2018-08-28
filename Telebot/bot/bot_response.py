@@ -15,8 +15,7 @@ logger = logging.getLogger('django')
 
 commands = {'heys': (['hello', 'hi', 'hey', 'greetings' 'sup', 'wassup', 'привет'], ['Hello', 'Hey, there', 'Hi!', 'Greetings!'])}
 
-global reply_markup
-reply_markup = None
+
 
 def build_keyboard(items):
     keyboard = [[item] for item in items]
@@ -115,8 +114,6 @@ def complete_tasks(text, user):
     logger.info(titles)
     if len(words) == 1:
         answer = "Choose witch task to mark 'completed'."        
-        global reply_markup
-        reply_markup = build_keyboard(titles)
     elif " ".join(words[1:]) in titles:
         task = Task.objects.filter(title=" ".join(words[1:]))[0]
         task.completed = True
@@ -169,7 +166,7 @@ def get_context(text, user):
     messages = Message.objects.filter(chat_id=user['id'], sent=False).order_by('-time_sent')
     context_answer = None
     if messages[0].text == "/complete":
-        task = Task.objects.get(title=text)
+        task = Task.objects.filter(title=text)[0]
         task.completed = True
         task.save()
         context_answer = "Task '{0}' is completed.".format(text)
