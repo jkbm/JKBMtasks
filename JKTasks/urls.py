@@ -27,5 +27,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/login/', auth_views.login, name='login'),
     path('bot/', include('Telebot.urls')),
+    path('cd/', include('countdown.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

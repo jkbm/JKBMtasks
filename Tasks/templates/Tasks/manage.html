@@ -18,8 +18,8 @@
         <p>
         <form  id="taskForm" method="POST"> {% csrf_token %}
             {% for task in tasks%}
-            <label name ="task" value="{{ task.task_id }}" >{{ task.title }}: {{ task.description }}</label><br>
-            <label name="start_on">Tasks stated(-s) on: {{ task.start_date }}</label><br>    
+            <label name ="task" style="font-weight: bold;" value="{{ task.task_id }}" >{{ task.title }}: {{ task.description }}</label><br>
+            <label name="start_on">Stated(-s) on: {{ task.start_date }}</label><br>    
             <label name="complete_by">Complete by: {{ task.finish_date }}</label><br> 
             <label class="checkbox-container"> - completed <input type="checkbox" name="complete" value="{{ task.task_id }}">
             <span class="checkmark"></span>
