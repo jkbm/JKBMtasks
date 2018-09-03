@@ -152,7 +152,7 @@ def get_notes(text, user):
         if len(notes) > 0:
             answer = "Your notes: \n"
             for note in notes:
-                answer += "<b>{0}</b>: <i>{1}.</i>\n".format(notes.title, note.description)   
+                answer += "<b>{0}</b>: <i>{1}.</i>\n".format(note.title, note.description)   
         else:
             answer = "You have no notes."   
 
