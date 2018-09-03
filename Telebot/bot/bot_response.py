@@ -102,7 +102,7 @@ def get_tasks(text, user):
             for task in tasks:
                 answer += "<b>{0}</b>: <i>{1}.</i> Complete by: {2}\n".format(task.title, task.description, task.finish_date)   
         else:
-            answer = "You have no tasks."   
+            answer = "You have no tasks.\n"   
 
     return answer
 
@@ -154,7 +154,7 @@ def get_notes(text, user):
             for note in notes:
                 answer += "<b>{0}</b>: <i>{1}.</i>\n".format(note.title, note.description)   
         else:
-            answer = "You have no notes."   
+            answer = "You have no notes.\n"   
 
     return answer
 
