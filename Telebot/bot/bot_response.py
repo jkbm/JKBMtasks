@@ -62,6 +62,8 @@ def get_command(update, text, user):
         answer = get_user(text, user)
     elif words[0] == "/tasks":
         answer = get_tasks(text, user)
+    elif words[0] == "/notes":
+        answer = get_notes(text, user)
     elif words[0] == "/complete":
         answer = complete_tasks(text, user)
     else:
@@ -69,6 +71,7 @@ def get_command(update, text, user):
 
     return answer
 
+# TASKS
 def get_tasks(text, user):
     """
     Generate '/tasks' command answers
@@ -122,6 +125,36 @@ def complete_tasks(text, user):
     else:
         answer = "No such task. Try again or use /tasks to see a list of your active tasks."
 
+
+    return answer
+
+# NOTES
+def get_notes(text, user):
+    """
+    Generate '/notes' command answers
+    """
+    words = text.split()
+    bot_user = Bot_user.objects.get(id=user['id'])
+    date = datetime.today().strftime('%Y-%m-%d')
+
+    if len(words) > 1 and "add" == words[1]:
+        args = text.split('-')[1:]
+        if len(args) != 0:        
+            params = {'start_date': date, 'created_by': bot_user.app_user}
+            for arg in args:
+                list_arg = arg.split()
+                params[list_arg[0]] = " ".join(list_arg[1:])
+
+        else:
+            answer = "Incorect command to create a note(Use -*field* *value* template)."
+    else:       
+        notes = Note.objects.filter(created_by=bot_user.app_user)
+        if len(notes) > 0:
+            answer = "Your notes: \n"
+            for task in tasks:
+                answer += "<b>{0}</b>: <i>{1}.</i>\n".format(notes.title, note.description)   
+        else:
+            answer = "You have no notes."   
 
     return answer
 
