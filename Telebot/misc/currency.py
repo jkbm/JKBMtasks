@@ -14,7 +14,7 @@ jr = json.loads(r.text)
 
 EUR = 1
 
-def get_rates(ammount=100, curr1="USD", curr2="UAH")
+def get_rates(ammount=100, curr1="USD", curr2="UAH"):
     try:
         cbuy = jr['rates'][curr2]/jr['rates'][curr1]
         report = "{0}{1} to equals to {3}{2}".format(amount, curr1, curr2, round(float(amount)*cbuy, 2))
