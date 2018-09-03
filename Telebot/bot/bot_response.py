@@ -151,7 +151,7 @@ def get_notes(text, user):
         notes = Note.objects.filter(created_by=bot_user.app_user)
         if len(notes) > 0:
             answer = "Your notes: \n"
-            for task in tasks:
+            for note in notes:
                 answer += "<b>{0}</b>: <i>{1}.</i>\n".format(notes.title, note.description)   
         else:
             answer = "You have no notes."   
