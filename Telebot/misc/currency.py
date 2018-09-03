@@ -13,7 +13,7 @@ def get_rates(amount=100, curr1="USD", curr2="UAH"):
     jr = json.loads(r.text)
     try:
         cbuy = jr['rates'][curr2]/jr['rates'][curr1]
-        report = "{0}{1} to equals to {3}{2}".format(amount, curr1, curr2, round(float(amount)*cbuy, 2))
+        report = "{0}{1} equals to {3}{2}".format(amount, curr1, curr2, round(float(amount)*cbuy, 2))
     except Exception as e:
         report = e
         print("Available values: {0}".format([x for x in jr['rates'].keys()]))
