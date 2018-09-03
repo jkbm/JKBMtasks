@@ -1,7 +1,7 @@
 # Taks Bot response generator file
 
 from Telebot.models import Bot_user, Message
-from Tasks.models import Task, User
+from Tasks.models import Task, User, Note
 from datetime import datetime
 import random
 import urllib
