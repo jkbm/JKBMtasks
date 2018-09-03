@@ -1,6 +1,12 @@
 # Task management and notification application
 This is a simple task management web-application integrated with Telegram chatbot.
 
+# Functions
+1). Create and manage timed tasks.
+2). Create and manage notes.
+3). Create and manage countdowns.
+4). Use Telegram bot as web-app interface to iteract with functions above.
+
 ## Setup
 
 1). Download repository.

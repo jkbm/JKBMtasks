@@ -80,7 +80,7 @@ def trigger(request, uid=None):
     """
 
     bot = Bot()
-    bot.send_tasks()
+    bot.send_briefing()
 
     html = "<html><body>Sent.</body></html>"
 

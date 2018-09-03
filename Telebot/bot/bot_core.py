@@ -6,6 +6,7 @@ import logging
 from Tasks.models import Task
 from ..models import Bot_user, Message
 from .bot_response import get_answer, get_tasks
+from Telebot.misc.currency import get_rates
 from datetime import datetime
 import os
 
@@ -151,6 +152,18 @@ class Bot:
             url = URL + "sendMessage?parse_mode=html&text={0}&chat_id={1}".format(tasks, chat_id)
             r, jr = self.get_request(url)
             logger.info("Tasks sent: %s" % r)
+
+    def send_briefing(self, chat_id="263702884"):
+        user = {'id': chat_id}
+        text = "/tasks"
+        bot_user = Bot_user.objects.get(id=user['id'])
+        if bot_user.daily_tasks == True:
+            tasks = get_tasks(text, user)
+            currencies = "\n<b>{0}</b>".formate(get_rates())
+            text = tasks + currencies
+            url = URL + "sendMessage?parse_mode=html&text={0}&chat_id={1}".format(text, chat_id)
+            r, jr = self.get_request(url)
+            logger.info("Daily brief sent: %s" % r)
 
 
 if __name__ == "__main__":
