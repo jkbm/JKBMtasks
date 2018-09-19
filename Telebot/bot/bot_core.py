@@ -7,6 +7,7 @@ from Tasks.models import Task
 from ..models import Bot_user, Message
 from .bot_response import get_answer, get_tasks, get_notes
 from Telebot.misc.currency import get_rates
+from Telebot.misc.weather import get_weather
 from datetime import datetime
 import os
 
@@ -161,6 +162,7 @@ class Bot:
             notes = get_notes("/notes", user)
             currencies = "\n<b>{0}</b>".format(get_rates())
             text = tasks + "\n" + notes + currencies
+            text += "\n" +  get_weather()
             url = URL + "sendMessage?parse_mode=html&text={0}&chat_id={1}".format(text, chat_id)
             r, jr = self.get_request(url)
             logger.info("Daily brief sent: %s" % r)
