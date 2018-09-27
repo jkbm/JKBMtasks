@@ -1,21 +1,45 @@
-{% extends 'JKTasks/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
+<style>
+  p{
+    color: white;
+    text-align: center;
+  }
+  .panel{
+    background-color: black;
+  }
+  .countdown{
+    font-family: "Courier New", Courier, monospace;
+    font-size: 30px;
+    letter-spacing: 2px;
+    word-spacing: 2px;
+    font-weight: normal;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+      }
+</style>
 <!-- Display the countdown timer in an element -->
+<div class="panel">
+<p>Countdown to {{ countdown }}.</p>
+<p id="demo" class="countdown"></p>
 <p id="countdown"></p>
-<p id="demo"></p>
+</div>
 
 <script>
 // Display countdown info
+var d;
 function getMyTime(){
     $.ajax({
                type: 'GET',
-               url: '{% url "countdown:countdown_send" cd_id="fb3b96ae-38c2-42b1-a8ca-7ab63af5b061" %}',
+               url: '{% url "countdown:countdown_send" cd_id=pk %}',
                processData: true,
                dataType: 'json',
                contentType: "application/json",
                success: function(data ) {
-
+                                    d = data[0].fields.countdown_to
                                     console.log(data[0].fields);
                                     $('#countdown').text(data[0].fields.countdown_to);
                                     
@@ -23,15 +47,14 @@ function getMyTime(){
                });
     }
 getMyTime();
-var data = "1/1/2020";
 
 // Set the date we're counting down to
 //var countDownDate = new Date("Jan 5, 2019 15:37:25").getTime();
-var countDownDate = new Date("{{ count_to }}").getTime();
-
+//var countDownDate = new Date("{{ count_to }}").getTime();
+var countDownDate = new Date(d).getTime();
 // Update the count down every 1 second
 var x = setInterval(function() {
-
+  var countDownDate = new Date(d).getTime();
   // Get todays date and time
   var now = new Date().getTime();
 
@@ -45,7 +68,7 @@ var x = setInterval(function() {
   var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
   // Display the result in the element with id="demo"
-  document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+  document.getElementById("demo").innerHTML = days + "d " + hours + "h : "
   + minutes + "m " + seconds + "s ";
 
   // If the count down is finished, write some text 

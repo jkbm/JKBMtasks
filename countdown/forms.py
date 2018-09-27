@@ -6,6 +6,15 @@ from .models import Countdown
 class DateInput(forms.DateTimeInput):
     input_type = 'datetime-local'
 
+class CountdownModelForm(forms.ModelForm):
+
+    class Meta:
+        model = Countdown
+        fields = ['title', 'countdown_to']
+
+        widgets = {
+            'countdown_to': forms.DateInput(attrs={'class':'datepicker'}),
+        }
 class NewCountdownForm(forms.Form):
     title= forms.CharField(max_length=100)
     countdown_to_date = forms.SplitDateTimeField(widget=DateInput())

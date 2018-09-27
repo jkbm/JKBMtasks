@@ -1,9 +1,27 @@
-{% extends 'JKTasks/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
+<script>
+    $(function() {
+      $( ".datepicker" ).datetimepicker({
+            format:'YYYY-MM-DD HH:mm:ss'
+        });
+    });
+</script>
+<div style="position: relative">
 <form method="post" novalidate>
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Submit</button>
   </form>
+</div>
+<div class="list">
+  <ul>
+  {% for c in countdowns %}
+    <li>
+      <a href="{% url 'countdown:countdown_detail' pk=c.countdown_id %}">{{ c }}</a>
+    </li>
+  </ul>
+  {% endfor %}
+</div>
 {% endblock %}

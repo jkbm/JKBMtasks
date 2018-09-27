@@ -8,6 +8,7 @@ app_name = "countdown"
 urlpatterns = [
     url(r'^$', views.index, name='home'),
     path("countdown/", views.countdown, name='countdown'),
+    path("countdown/test/<pk>", views.countdown_detail, name='countdown_detail'),
     path("countdown/<cd_id>", views.send_countdown, name='countdown_send'),
 
 ]
