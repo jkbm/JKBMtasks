@@ -19,13 +19,18 @@ from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
 from . import views
 from rest_framework import routers
-
+app_name = "JKTasks"
 urlpatterns = [
     path('', include('Tasks.urls')),
     path('tasks/', views.index, name='index'),
     path('index/', views.index, name='index'),
     path('admin/', admin.site.urls),
-    path('accounts/login/', auth_views.login, name='login'),
+    path('accounts/login/', auth_views.LoginView.as_view(template_name='JKTasks/login.html'), name='login'),
+    path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('accounts/password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
+    path('accounts/password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('accounts/password_change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
+    path('accounts/password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
     path('bot/', include('Telebot.urls')),
     path('cd/', include('countdown.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))

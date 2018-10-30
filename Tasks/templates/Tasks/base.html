@@ -22,40 +22,71 @@
         <link rel="stylesheet" type="text/css" href="{% static 'Tasks/css/base.css' %}">
     </head>
 <body>
-    <div>
-        <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'home' %} active {% endif %}" href="{% url 'Tasks:home' %}">Home</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'home' %} active {% endif %}" href="{% url 'Tasks:home' %}">Home</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="{% url 'Tasks:tasks' %}">Tasks</a>
+                <div class="dropdown-menu">
+                <a class="dropdown-item" href="{% url 'Tasks:new_task' %}">New Task</a>
+                <a class="dropdown-item" href="{% url 'Tasks:tasks' task_type='active' %}">Active</a>
+                <a class="dropdown-item" href="{% url 'Tasks:tasks' task_type='future' %}">Future</a>
+                <a class="dropdown-item" href="{% url 'Tasks:tasks' task_type='past' %}">Past</a>
+                <a class="dropdown-item" href="{% url 'Tasks:tasks' task_type='missed' %}">Missed</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="{% url 'Tasks:notes' %}">Notes</a>
+                <div class="dropdown-menu">
+                <a class="dropdown-item" href="{% url 'Tasks:new_note' %}">New Note</a>
+                <a class="dropdown-item" href="{% url 'Tasks:notes' %}">List all notes</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                    <a class="nav-link" href="{% url 'Tasks:task_management' %}">Task Management</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="{% url 'Tasks:tasks' %}">Tasks</a>
-                    <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'Tasks:new_task' %}">New Task</a>
-                    <a class="dropdown-item" href="{% url 'Tasks:tasks' task_type='active' %}">Active</a>
-                    <a class="dropdown-item" href="{% url 'Tasks:tasks' task_type='future' %}">Future</a>
-                    <a class="dropdown-item" href="{% url 'Tasks:tasks' task_type='past' %}">Past</a>
-                    <a class="dropdown-item" href="{% url 'Tasks:tasks' task_type='missed' %}">Missed</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="{% url 'Tasks:notes' %}">Notes</a>
-                        <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{% url 'Tasks:new_note' %}">New Note</a>
-                        <a class="dropdown-item" href="{% url 'Tasks:notes' %}">List all notes</a>
-                        </div>
-                    </li>
-                <li class="nav-item">
-                        <a class="nav-link" href="{% url 'Tasks:task_management' %}">Task Management</a>
-                    </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Countdowns</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                </li>
-        </ul>
-    </div>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Countdowns</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
 
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            {% if user.is_authenticated %}
+            <p class="navbar-text">Hello, {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
+            <button class="nav-item btn"><a href="{% url 'admin:index' %}"><span class="glyphicon glyphicon-edit"></span>Control panel</a></button> 
+            {% else %}
+            <button class="btn"><a class="nav-link" href="{% url 'login' %}"><span class="glyphicon glyphicon-lock"></span>Login</a></button>
+            {% endif %}
+            </form>
+        </div>
+      </nav>
+<div>
+        <form id="Login" class="form-horizontal" method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <table>
+                <tr>
+                    <td>{{ form.username }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.password }}</td>
+                </tr>
+                </table>
+                
+                <input type="submit" value="login">
+                <input type="hidden" name="next" value="{{ next }}">
+                </form>
+</div>
     {% if messages %}
         <ul class="messages">
         {% for message in messages %}

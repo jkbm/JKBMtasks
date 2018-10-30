@@ -39,3 +39,18 @@ class Note(models.Model):
     def __str__(self):
 
         return "Note"
+
+class MultiTask(models.Model):
+    """
+    Multitask model model
+    """
+
+    task_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=200, unique=False)
+    description = models.CharField(max_length=200, null=True, blank=True)
+    tasks = models.ManyToManyField(Task)
+    start_date = models.DateField(null=True, blank=True)
+    finish_date = models.DateField(default=datetime.now, null=True, blank=True)
+    created_by = models.ForeignKey('auth.User', null=True, blank=True, on_delete=models.SET_NULL)
+    created_by_bot = models.ForeignKey(Bot_user, null=True, blank=True, on_delete=models.SET_NULL)
+    completed = models.BooleanField(default=False)
